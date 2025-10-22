@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أبو عمرو البصري ورواته - عرض تقديمي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Amiri', serif;
+            overflow: hidden;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        /* Islamic Pattern Background */
+        .islamic-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            opacity: 0.95;
+            z-index: 1;
+        }
+
+        .pattern-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px);
+            animation: patternMove 20s linear infinite;
+        }
+
+        .islamic-geometry {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            opacity: 0.1;
+        }
+
+        .star {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotateStar 30s linear infinite;
+        }
+
+        .star::before,
+        .star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .star::after {
+            width: 400px;
+            height: 400px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.4; }
+        }
+
+        @keyframes patternMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 70px 70px; }
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-content {
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .bismillah {
+            font-family: 'Amiri', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .title-arabic {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .subtitle-arabic {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: #e0e0e0;
+            font-weight: 300;
+        }
+
+        .start-button {
+            padding: 20px 60px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1e3c72;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            animation: bounce 2s ease infinite;
+        }
+
+        .start-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.6); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Presentation Container */
+        .presentation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+        }
+
+        .presentation-container.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Slide Container */
+        .slide-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(100%);
+            transition: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+            animation: slideInRight 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .slide.prev {
+            animation: slideOutLeft 0.6s ease;
+        }
+
+        .slide.next {
+            animation: slideOutRight 0.6s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%) scale(0.8) rotateY(20deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotateY(0);
+            }
+        }
+
+        @keyframes slideOutLeft {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100%) scale(0.8);
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(100%) scale(0.8);
+            }
+        }
+
+        /* Slide Content */
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 60px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            color: #1e3c72;
+            animation: contentFadeIn 0.8s ease 0.3s both;
+        }
+
+        @keyframes contentFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            color: #1e3c72;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .slide-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 5px;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            border-radius: 3px;
+        }
+
+        .slide-subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: #2a5298;
+            text-align: center;
+        }
+
+        /* List Styles */
+        .content-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .content-list li {
+            font-size: 1.4rem;
+            margin: 1.5rem 0;
+            padding-right: 3rem;
+            position: relative;
+            line-height: 1.8;
+            animation: listItemFadeIn 0.5s ease backwards;
+        }
+
+        .content-list li:nth-child(1) { animation-delay: 0.5s; }
+        .content-list li:nth-child(2) { animation-delay: 0.6s; }
+        .content-list li:nth-child(3) { animation-delay: 0.7s; }
+        .content-list li:nth-child(4) { animation-delay: 0.8s; }
+        .content-list li:nth-child(5) { animation-delay: 0.9s; }
+        .content-list li:nth-child(6) { animation-delay: 1s; }
+
+        @keyframes listItemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content-list li::before {
+            content: '◆';
+            position: absolute;
+            right: 0;
+            color: #ffd700;
+            font-size: 1.5rem;
+        }
+
+        .content-list li strong {
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        /* Table Styles */
+        .content-table {
+            width: 100%;
+            margin: 2rem 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .content-table th {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .content-table td {
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fff;
+        }
+
+        .content-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-table tr:nth-child(even) td {
+            background: #f8f9fa;
+        }
+
+        /* Quote Styles */
+        .quote {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            border-right: 5px solid #1e3c72;
+            margin: 2rem 0;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: #1e3c72;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+            animation: quoteFadeIn 0.8s ease 0.6s both;
+        }
+
+        @keyframes quoteFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Icon Styles */
+        .icon {
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-size: 1.2em;
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            z-index: 200;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .navigation.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-button {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #1e3c72;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .nav-button:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        .nav-button:active {
+            transform: scale(0.95);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 300;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .progress-container.active {
+            opacity: 1;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e3c72;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .slide-counter.active {
+            opacity: 1;
+        }
+
+        /* Special Slide Styles */
+        .title-slide .slide-content {
+            background: linear-gradient(135deg, rgba(30, 60, 114, 0.95), rgba(42, 82, 152, 0.95));
+            color: #fff;
+            text-align: center;
+        }
+
+        .title-slide .slide-title {
+            color: #ffd700;
+            font-size: 4rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .title-slide .slide-subtitle {
+            color: #fff;
+            font-size: 2.5rem;
+        }
+
+        .title-slide .slide-title::after {
+            background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
+        }
+
+        /* Grid Layout for Lists */
+        .grid-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-item {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            border-right: 5px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .slide-content {
+                padding: 40px;
+            }
+            
+            .slide-title {
+                font-size: 2.8rem;
+            }
+            
+            .content-list li {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 20px;
+            }
+            
+            .slide-content {
+                padding: 30px;
+            }
+            
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .content-list li {
+                font-size: 1rem;
+            }
+            
+            .navigation {
+                bottom: 20px;
+                left: 20px;
+            }
+            
+            .nav-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .slide-counter {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+            
+            .grid-list {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Keyboard Navigation Hint */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 120px;
+            left: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #1e3c72;
+            opacity: 0;
+            animation: hintFadeInOut 3s ease 2s;
+            z-index: 150;
+        }
+
+        @keyframes hintFadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: #ffd700;
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Islamic Pattern Background -->
+    <div class="islamic-pattern">
+        <div class="pattern-overlay"></div>
+        <div class="islamic-geometry">
+            <div class="star"></div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-content">
+            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+            <h1 class="title-arabic">أبو عمرو البصري ورواته</h1>
+            <p class="subtitle-arabic">أصول قراءتهم وضوابطها</p>
+            <button class="start-button" onclick="startPresentation()">
+                ابدأ العرض ⟵
+            </button>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Presentation Container -->
+    <div class="presentation-container" id="presentationContainer">
+        <div class="slide-container" id="slideContainer">
+            <!-- Slides will be dynamically generated here -->
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation" id="navigation">
+        <button class="nav-button" id="prevButton" onclick="previousSlide()">
+            <span>→</span>
+        </button>
+        <button class="nav-button" id="nextButton" onclick="nextSlide()">
+            <span>←</span>
+        </button>
+    </div>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter" id="slideCounter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">35</span>
+    </div>
+
+    <!-- Keyboard Hint -->
+    <div class="keyboard-hint">
+        استخدم الأسهم أو الأزرار للتنقل
+    </div>
+
+    <script>
+        // Slide Data
+        const slides = [
+            {
+                type: 'title',
+                title: 'أبو عمرو البصري ورواته',
+                subtitle: 'أصول قراءتهم وضوابطها',
+                content: ''
+            },
+            {
+                type: 'content',
+                title: 'من هو أبو عمرو البصري؟',
+                subtitle: 'الاسم والنسب',
+                content: `
+                    <ul class="content-list">
+                        <li><strong>الاسم:</strong> زبّان بن العلاء بن عمار بن العريان</li>
+                        <li><strong>النسب:</strong> التميمي المازني البصري</li>
+                        <li><strong>الكنية:</strong> أبو عمرو</li>
+                        <li><strong>النسبة:</strong> البصري (نسبة إلى البصرة)</li>
+                        <li><strong>اللقب:</strong> صريح النسب في العرب</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'مولده ونشأته',
+                subtitle: '',
+                content: `
+                    <ul class="content-list">
+                        <li><strong class="icon">📍</strong> <strong>مكان الولادة:</strong> مكة المكرمة</li>
+                        <li><strong class="icon">📅</strong> <strong>سنة الولادة:</strong> 68 هـ (في عهد عبد الملك بن مروان)</li>
+                        <li><strong class="icon">🏛️</strong> <strong>النشأة:</strong> نشأ في البصرة</li>
+                        <li><strong class="icon">⚰️</strong> <strong>الوفاة:</strong> الكوفة سنة 154 هـ</li>
+                        <li><strong class="icon">⏳</strong> <strong>العمر:</strong> عاش 86 سنة تقريباً</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'شيوخه وأسانيده',
+                subtitle: 'أبرز من أخذ عنهم',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">من الصحابة:</h3>
+                            <p style="font-size: 1.2rem;">أنس بن مالك رضي الله عنه</p>
+                        </div>
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">من التابعين:</h3>
+                            <ul class="content-list">
+                                <li>الحسن البصري</li>
+                                <li>سعيد بن جبير</li>
+                                <li>عاصم بن أبي النجود</li>
+                                <li>ابن كثير المكي</li>
+                                <li>نافع المدني</li>
+                                <li>مجاهد بن جبر</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'مكانته العلمية',
+                subtitle: '',
+                content: `
+                    <ul class="content-list">
+                        <li><strong class="icon">📖</strong> <strong>القراءات:</strong> إمام القراءة في عصره</li>
+                        <li><strong class="icon">✍️</strong> <strong>النحو واللغة:</strong> من مؤسسي المدرسة البصرية النحوية</li>
+                        <li><strong class="icon">📜</strong> <strong>الشعر وأيام العرب:</strong> عالم بهما</li>
+                        <li><strong class="icon">✅</strong> <strong>الحديث:</strong> ثقة عدل</li>
+                    </ul>
+                    <div class="quote">
+                        "أبو عمرو أعلم الناس بالقراءات والعربية وأيام العرب والشعر" - أبو عبيدة
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'زهده وورعه',
+                subtitle: 'من مظاهر تقواه',
+                content: `
+                    <ul class="content-list">
+                        <li><strong class="icon">🕌</strong> كان يختم القرآن كل ثلاث ليالٍ</li>
+                        <li><strong class="icon">📚</strong> كانت كتبه تملأ بيتاً إلى السقف ثم أحرقها تنسكاً</li>
+                        <li><strong class="icon">💍</strong> نقش على خاتمه:</li>
+                    </ul>
+                    <div class="quote">
+                        "وإن امرأ دنياه أكبر همه ... لمستمسك منها بحبل غرور"
+                    </div>
+                    <p style="text-align: center; margin-top: 2rem; font-size: 1.3rem; color: #2a5298;">
+                        <strong>من كراماته:</strong> قصة العين التي فُجرت له في الصحراء
+                    </p>
+                `
+            },
+            {
+                type: 'content',
+                title: 'تلاميذه',
+                subtitle: 'من أشهر من أخذ عنه',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item">
+                            <h3 style="color: #ffd700; margin-bottom: 1rem;">⭐ الراوي الأساسي</h3>
+                            <p style="font-size: 1.3rem; font-weight: 700;">يحيى بن المبارك اليزيدي</p>
+                            <p style="font-size: 1.1rem; margin-top: 0.5rem;">(ت 202 هـ)</p>
+                        </div>
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">علماء آخرون</h3>
+                            <ul class="content-list">
+                                <li>سيبويه (إمام النحاة)</li>
+                                <li>الأصمعي (إمام اللغة)</li>
+                                <li>أبو زيد الأنصاري</li>
+                                <li>يونس بن حبيب</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'منهجه في القراءة',
+                subtitle: 'ضوابط صارمة',
+                content: `
+                    <ul class="content-list">
+                        <li><strong class="icon">✅</strong> <strong>الالتزام بالأثر:</strong> لا يقرأ إلا بما قُرئ</li>
+                        <li><strong class="icon">📊</strong> <strong>التواتر:</strong> عدم القراءة إلا بما تواتر</li>
+                        <li><strong class="icon">⚖️</strong> <strong>الجمع:</strong> بين الرواية والدراية</li>
+                        <li><strong class="icon">🔗</strong> <strong>السند:</strong> الاعتماد على الإسناد الصحيح</li>
+                    </ul>
+                    <div class="quote">
+                        "لولا أن ليس لي أن أقرأ إلا بما قُرئ، لقرأت كذا وكذا" - أبو عمرو البصري
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'انتشار قراءته',
+                subtitle: 'نبوءة تحققت',
+                content: `
+                    <div class="quote" style="margin-bottom: 2rem;">
+                        "تمسك بقراءة أبي عمرو فإنها ستصير للناس إسناداً" - شعبة بن الحجاج
+                    </div>
+                    <ul class="content-list">
+                        <li><strong class="icon">🌍</strong> القراءة المعتمدة في: <strong>الشام، الحجاز، اليمن، مصر</strong></li>
+                        <li><strong class="icon">🔄</strong> حلت محل قراءة ابن عامر في الشام (بعد القرن 5 هـ)</li>
+                        <li><strong class="icon">📖</strong> القراءة السائدة في التلقين حتى اليوم في كثير من البلدان</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'الراويان عن أبي عمرو',
+                subtitle: 'بواسطة اليزيدي',
+                content: `
+                    <div style="background: linear-gradient(135deg, #ffd700, #ffed4e); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; text-align: center;">
+                        <h3 style="color: #1e3c72; font-size: 2rem; margin-bottom: 1rem;">الراوي الوسيط</h3>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: #1e3c72;">يحيى بن المبارك اليزيدي</p>
+                        <p style="font-size: 1.2rem; color: #1e3c72; margin-top: 0.5rem;">(110-202 هـ)</p>
+                        <p style="margin-top: 1rem; font-size: 1.1rem; color: #2a5298;">أجل أصحاب أبي عمرو • توفي بخراسان</p>
+                    </div>
+                    <div class="grid-list">
+                        <div class="grid-item" style="border-right-color: #1e3c72;">
+                            <h3 style="color: #1e3c72;">1️⃣ الدوري</h3>
+                            <p>أبو عمر حفص بن عمر</p>
+                        </div>
+                        <div class="grid-item" style="border-right-color: #2a5298;">
+                            <h3 style="color: #2a5298;">2️⃣ السوسي</h3>
+                            <p>أبو شعيب صالح بن زياد</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'الراوي الأول - الدوري',
+                subtitle: 'أبو عمر حفص بن عمر',
+                content: `
+                    <ul class="content-list">
+                        <li><strong>الاسم الكامل:</strong> حفص بن عمر بن عبد العزيز بن صهبان الأزدي</li>
+                        <li><strong>النسبة:</strong> الدوري (نسبة إلى "الدور" محلة ببغداد)</li>
+                        <li><strong>الصفات:</strong> ضرير، نحوي، ثقة، ضابط</li>
+                        <li><strong>الوفاة:</strong> شوال 246 هـ برنبوية (من قرى الري)</li>
+                        <li><strong class="icon">⭐</strong> <strong>ميزة خاصة:</strong> أول من جمع القراءات السبع</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'الراوي الثاني - السوسي',
+                subtitle: 'أبو شعيب صالح بن زياد',
+                content: `
+                    <ul class="content-list">
+                        <li><strong>الاسم الكامل:</strong> صالح بن زياد بن عبد الله بن إسماعيل</li>
+                        <li><strong>النسبة:</strong> السوسي (نسبة إلى "السوس" كورة بالأهواز)</li>
+                        <li><strong>الصفات:</strong> ضابط، محرر، ثقة</li>
+                        <li><strong>الولادة:</strong> 173 هـ</li>
+                        <li><strong>الوفاة:</strong> أول سنة 261 هـ بالرقة</li>
+                        <li><strong>العمر:</strong> قارب السبعين</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أصول قراءة أبي عمرو (1)',
+                subtitle: 'البسملة والاستعاذة',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">البسملة بين السورتين</h3>
+                            <p style="font-size: 1.2rem;"><strong>الوصل</strong> (عدم البسملة)</p>
+                            <p style="margin-top: 1rem; font-size: 1.1rem;">إلا بين الأنفال والتوبة: السكت أو الوصل</p>
+                        </div>
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">الاستعاذة</h3>
+                            <p style="font-size: 1.2rem;">يجوز الإتيان بها قبل القراءة</p>
+                            <p style="margin-top: 1rem; font-size: 1.1rem;">"أعوذ بالله من الشيطان الرجيم"</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أصول قراءة أبي عمرو (2)',
+                subtitle: 'الإدغام الكبير',
+                content: `
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                        <h3 style="color: #1e3c72; font-size: 1.8rem; margin-bottom: 1rem; text-align: center;">
+                            أبو عمرو هو "قطب" الإدغام الكبير
+                        </h3>
+                        <p style="text-align: center; font-size: 1.2rem; color: #2a5298;">
+                            (أكثر القراء إدغاماً)
+                        </p>
+                    </div>
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>الآية</th>
+                                <th>القراءة بالإدغام</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{قَضَيْتُمْ مَنَاسِكَكُمْ}</td>
+                                <td>مَنَاسِكُّمْ</td>
+                            </tr>
+                            <tr>
+                                <td>{مَا سَلَكَكُمْ فِي سَقَرَ}</td>
+                                <td>مَا سَلَكُّمْ</td>
+                            </tr>
+                            <tr>
+                                <td>{يَعْلَمُ مَا فِيهِ}</td>
+                                <td>إدغام الميم في الميم</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أصول قراءة أبي عمرو (3)',
+                subtitle: 'الهمزتان',
+                content: `
+                    <ul class="content-list">
+                        <li><strong>المتفقتان في الحركة:</strong> يُسقط الهمزة الأولى
+                            <br>مثال: {جَاءَ أَمْرُنَا} ← {جَا أَمْرُنَا}
+                        </li>
+                        <li><strong>المتفقتان في الحركة:</strong> {السَّمَاءِ إِنْ} ← {السَّمَاءِ نْ}</li>
+                        <li><strong>في كلمة {مُؤْصَدَةٌ}:</strong> يحققها (لا يبدلها)
+                            <br>للتفريق بين "آصد" و "أوصد"
+                        </li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أصول قراءة أبي عمرو (4)',
+                subtitle: 'ياءات الإضافة',
+                content: `
+                    <p style="font-size: 1.3rem; margin-bottom: 2rem; text-align: center; color: #2a5298;">
+                        فتح كثير من ياءات الإضافة وإسكان بعضها
+                    </p>
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>الآية</th>
+                                <th>الحكم</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{إِنِّي أَعْلَمُ}</td>
+                                <td>فتح الياء</td>
+                            </tr>
+                            <tr>
+                                <td>{نِعْمَتِيَ الَّتِي}</td>
+                                <td>إسكان الياء</td>
+                            </tr>
+                            <tr>
+                                <td>{مِنِّي إِلَّا مَنِ}</td>
+                                <td>فتح الياء</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أصول قراءة أبي عمرو (5)',
+                subtitle: 'ميم الجمع',
+                content: `
+                    <ul class="content-list">
+                        <li><strong>قبل متحرك:</strong> صلة الميم بواو لفظية (ضمها)
+                            <br>مثال: {عَلَيْهُمُ الْقِتَالُ} ← {عَلَيْهُمُو الْقِتَالُ}
+                        </li>
+                        <li><strong>قبل ساكن:</strong> كسر الميم إذا كانت بعد هاء الضمير المسبوقة بكسر أو ياء ساكنة
+                            <br>مثال: {عَلَيْهِمِ الْقِتَالُ} (بكسر الميم)
+                        </li>
+                        <li>مثال: {يُرِيهِمُ اللهُ} ← {يُرِيهِمِ اللهُ} (بكسر الميم)</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أصول قراءة أبي عمرو (6)',
+                subtitle: 'مذهبه في المد',
+                content: `
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>نوع المد</th>
+                                <th>الدوري</th>
+                                <th>السوسي</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>المد المنفصل</strong></td>
+                                <td>القصر (2) أو التوسط (4)</td>
+                                <td>القصر (2) فقط</td>
+                            </tr>
+                            <tr>
+                                <td><strong>المد المتصل</strong></td>
+                                <td colspan="2" style="text-align: center;">التوسط (4) أو الطول (6)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>المد اللازم</strong></td>
+                                <td colspan="2" style="text-align: center;">الإشباع (6 حركات)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            {
+                type: 'content',
+                title: 'فرش الحروف - أمثلة (1)',
+                subtitle: 'بعض القراءات المخالفة',
+                content: `
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>الكلمة</th>
+                                <th>قراءة حفص</th>
+                                <th>قراءة أبي عمرو</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{مَالِكِ يَوْمِ الدِّينِ}</td>
+                                <td>مَالِكِ (بألف)</td>
+                                <td>مَالِكِ أو مَلِكِ</td>
+                            </tr>
+                            <tr>
+                                <td>{يُخَادِعُونَ}</td>
+                                <td>يُخَادِعُونَ</td>
+                                <td>يَخْدَعُونَ</td>
+                            </tr>
+                            <tr>
+                                <td>{وَيَمْكُرُونَ}</td>
+                                <td>وَيَمْكُرُونَ</td>
+                                <td>وَيَمْكُرُونَ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            {
+                type: 'content',
+                title: 'فرش الحروف - أمثلة (2)',
+                subtitle: '',
+                content: `
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>الكلمة</th>
+                                <th>قراءة حفص</th>
+                                <th>قراءة أبي عمرو</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{قُلِ الْعَفْوَ} (البقرة)</td>
+                                <td>العَفْوَ (نصب)</td>
+                                <td>العَفْوُ (رفع)</td>
+                            </tr>
+                            <tr>
+                                <td>{أَهْلَكْنَا} (الحج)</td>
+                                <td>أَهْلَكْنَا (بنون)</td>
+                                <td>أَهْلَكْتُهَا (بتاء)</td>
+                            </tr>
+                            <tr>
+                                <td>{مُعَاجِزِينَ} (سبأ)</td>
+                                <td>مُعَاجِزِينَ (بألف)</td>
+                                <td>مُعْجِّزِينَ (تشديد)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            {
+                type: 'content',
+                title: 'فرش الحروف - أمثلة (3)',
+                subtitle: 'في سورة ص والحديد',
+                content: `
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>الكلمة</th>
+                                <th>قراءة حفص</th>
+                                <th>قراءة أبي عمرو</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{وَآخَرُ مِنْ شَكْلِهِ}</td>
+                                <td>وَآخَرُ (بألف)</td>
+                                <td>وَأُخَرُ (بضم بلا ألف)</td>
+                            </tr>
+                            <tr>
+                                <td>{هَذَا مَا تُوعَدُونَ}</td>
+                                <td>تُوعَدُونَ (بتاء)</td>
+                                <td>يُوعَدُونَ (بياء)</td>
+                            </tr>
+                            <tr>
+                                <td>{وَقَدْ أَخَذَ مِيثَاقَكُمْ}</td>
+                                <td>أَخَذَ (معلوم)</td>
+                                <td>أُخِذَ (مجهول)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `
+            },
+            {
+                type: 'content',
+                title: 'الاختلاف بين الدوري والسوسي',
+                subtitle: 'أوجه الاختلاف الرئيسية',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">1️⃣ المد المنفصل</h3>
+                            <p><strong>الدوري:</strong> القصر أو التوسط</p>
+                            <p><strong>السوسي:</strong> القصر فقط</p>
+                        </div>
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">2️⃣ السكت</h3>
+                            <p><strong>السوسي:</strong> له سكتات خاصة في بعض المواضع</p>
+                            <p><strong>الدوري:</strong> لا سكت له</p>
+                        </div>
+                        <div class="grid-item">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">3️⃣ الصلة</h3>
+                            <p>بعض الاختلافات في صلة هاء الضمير</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'كتب متخصصة في قراءة أبي عمرو',
+                subtitle: '',
+                content: `
+                    <ul class="content-list">
+                        <li><strong class="icon">📘</strong> الكوكب الدري في قراءة أبي عمرو البصري - محمد المتولي (منظومة)</li>
+                        <li><strong class="icon">📗</strong> إتحاف الأنام في أصول وفرش قراءة أبي عمرو - (شرح على الكوكب الدري)</li>
+                        <li><strong class="icon">📙</strong> أصول رواية الدوري عن أبي عمرو</li>
+                        <li><strong class="icon">📕</strong> أصول رواية السوسي عن أبي عمرو</li>
+                        <li><strong class="icon">📚</strong> كتب التجويد والقراءات العامة (الشاطبية، النشر، الطيبة...)</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أهمية دراسة قراءة أبي عمرو',
+                subtitle: 'لماذا ندرسها؟',
+                content: `
+                    <ul class="content-list">
+                        <li>✅ <strong>قراءة متواترة</strong> صحيحة السند عن النبي ﷺ</li>
+                        <li>✅ <strong>من القراءات السبع المشهورة</strong> المتلقاة بالقبول</li>
+                        <li>✅ <strong>واسعة الانتشار</strong> في كثير من بلاد المسلمين</li>
+                        <li>✅ <strong>تفتح آفاق الفهم</strong> لمعاني القرآن الكريم</li>
+                        <li>✅ <strong>تُظهر ثراء اللغة العربية</strong> وإعجاز القرآن</li>
+                        <li>✅ <strong>حفظ التراث الإسلامي</strong> ونقله للأجيال</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'فوائد تعدد القراءات',
+                subtitle: '',
+                content: `
+                    <ul class="content-list">
+                        <li><strong class="icon">🌟</strong> <strong>التيسير على الأمة:</strong> القراءات نزلت على سبعة أحرف تيسيراً</li>
+                        <li><strong class="icon">💎</strong> <strong>ثراء المعاني:</strong> كل قراءة تضيف بُعداً جديداً للمعنى</li>
+                        <li><strong class="icon">✨</strong> <strong>الإعجاز اللغوي:</strong> تظهر فصاحة القرآن من جوانب متعددة</li>
+                        <li><strong class="icon">🔒</strong> <strong>التواتر والثبوت:</strong> تعدد الطرق يقوي اليقين بثبوت القرآن</li>
+                        <li><strong class="icon">📖</strong> <strong>حفظ اللغة العربية:</strong> القراءات وثّقت لهجات العرب</li>
+                    </ul>
+                    <div class="quote" style="margin-top: 2rem;">
+                        قاعدة: "تعدد القراءات بمنزلة الآيات"
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'منهج التلقي والإقراء',
+                subtitle: 'أركان القراءة الصحيحة',
+                content: `
+                    <div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                        <h3 style="color: #ffd700; font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center;">
+                            شروط قبول القراءة (ثلاثة)
+                        </h3>
+                        <div class="grid-list" style="gap: 1rem;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px;">
+                                <h4 style="color: #ffd700; margin-bottom: 0.5rem;">1️⃣ صحة السند</h4>
+                                <p>(التواتر)</p>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px;">
+                                <h4 style="color: #ffd700; margin-bottom: 0.5rem;">2️⃣ موافقة العربية</h4>
+                                <p>(ولو ضعيفاً)</p>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px;">
+                                <h4 style="color: #ffd700; margin-bottom: 0.5rem;">3️⃣ موافقة الرسم</h4>
+                                <p>(ولو احتمالاً)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 1.3rem; text-align: center; margin-top: 2rem; color: #2a5298;">
+                        <strong>طريقة التلقي:</strong> المشافهة والعرض على الشيوخ المتقنين بالسند المتصل
+                    </p>
+                `
+            },
+            {
+                type: 'content',
+                title: 'نماذج من توجيه القراءات',
+                subtitle: 'مثال: {قُلِ الْعَفْوَ}',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item" style="background: #e3f2fd;">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">قراءة الجمهور (النصب)</h3>
+                            <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">أنفقوا العفوَ</p>
+                            <p style="font-size: 1rem; color: #666;">(فعل أمر محذوف)</p>
+                        </div>
+                        <div class="grid-item" style="background: #fff3e0;">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">قراءة أبي عمرو (الرفع)</h3>
+                            <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">المنفَق هو العفوُ</p>
+                            <p style="font-size: 1rem; color: #666;">(مبتدأ وخبر)</p>
+                        </div>
+                    </div>
+                    <div class="quote" style="margin-top: 2rem;">
+                        <strong>الفائدة:</strong> كلتا القراءتين تدل على وجوب إنفاق الفضل عن الحاجة
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'نماذج من توجيه القراءات',
+                subtitle: 'مثال: {مَالِكِ / مَلِكِ}',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item" style="background: #e8f5e9;">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">مَالِكِ (بالألف)</h3>
+                            <p style="font-size: 1.2rem;">يدل على <strong>ملك الأعيان</strong></p>
+                            <p style="font-size: 1rem; margin-top: 0.5rem; color: #666;">والتصرف في المملوكات</p>
+                        </div>
+                        <div class="grid-item" style="background: #fce4ec;">
+                            <h3 style="color: #1e3c72; margin-bottom: 1rem;">مَلِكِ (بلا ألف)</h3>
+                            <p style="font-size: 1.2rem;">يدل على <strong>السلطان والقهر</strong></p>
+                            <p style="font-size: 1rem; margin-top: 0.5rem; color: #666;">والحكم والتدبير</p>
+                        </div>
+                    </div>
+                    <div class="quote" style="margin-top: 2rem;">
+                        <strong>الفائدة:</strong> الجمع بين المعنيين يفيد الكمال المطلق لله تعالى
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'مكانة أبي عمرو بين القراء',
+                subtitle: 'خصائص تميز بها',
+                content: `
+                    <ul class="content-list">
+                        <li>✨ أكثر القراء السبعة شيوخاً</li>
+                        <li>✨ الوحيد الذي أدرك الصحابة وسمع منهم</li>
+                        <li>✨ إمام في القراءة والنحو واللغة</li>
+                        <li>✨ صاحب الإدغام الكبير</li>
+                        <li>✨ قراءته الأوسع انتشاراً تاريخياً</li>
+                    </ul>
+                    <div class="quote" style="margin-top: 2rem;">
+                        "لو قُسم علم أبي عمرو وزهده على مائة إنسان لكانوا كلهم علماء زهاداً" - يونس بن حبيب
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'القراءة في عصرنا الحاضر',
+                subtitle: 'واقع قراءة أبي عمرو اليوم',
+                content: `
+                    <ul class="content-list">
+                        <li>✅ <strong>منتشرة في:</strong> ليبيا، تونس، الجزائر، السودان، موريتانيا، وبعض مناطق مصر</li>
+                        <li>✅ <strong>رواية السوسي:</strong> الأكثر انتشاراً في المغرب العربي</li>
+                        <li>✅ <strong>مصاحف مطبوعة</strong> برواية الدوري والسوسي</li>
+                        <li>✅ <strong>معاهد متخصصة</strong> في تعليم القراءات</li>
+                        <li>✅ <strong>شيوخ مسندون</strong> في كل بلد</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'كيف نتعلم قراءة أبي عمرو؟',
+                subtitle: 'خطوات عملية',
+                content: `
+                    <div style="counter-reset: step;">
+                        <div style="background: #f8f9fa; padding: 1.5rem; margin: 1rem 0; border-radius: 15px; border-right: 5px solid #ffd700;">
+                            <h3 style="color: #1e3c72; margin-bottom: 0.5rem;">1️⃣ إتقان قراءة حفص أولاً</h3>
+                            <p>(الأساس الذي نبني عليه)</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; margin: 1rem 0; border-radius: 15px; border-right: 5px solid #ffd700;">
+                            <h3 style="color: #1e3c72; margin-bottom: 0.5rem;">2️⃣ دراسة الأصول</h3>
+                            <p>(الإدغام، الهمز، المدود...)</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; margin: 1rem 0; border-radius: 15px; border-right: 5px solid #ffd700;">
+                            <h3 style="color: #1e3c72; margin-bottom: 0.5rem;">3️⃣ حفظ الفرش</h3>
+                            <p>(الكلمات المخالفة)</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; margin: 1rem 0; border-radius: 15px; border-right: 5px solid #ffd700;">
+                            <h3 style="color: #1e3c72; margin-bottom: 0.5rem;">4️⃣ العرض على شيخ متقن</h3>
+                            <p>(بالسند المتصل)</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; margin: 1rem 0; border-radius: 15px; border-right: 5px solid #ffd700;">
+                            <h3 style="color: #1e3c72; margin-bottom: 0.5rem;">5️⃣ الختمات المتكررة</h3>
+                            <p>(لتثبيت القراءة)</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; margin: 1rem 0; border-radius: 15px; border-right: 5px solid #ffd700;">
+                            <h3 style="color: #1e3c72; margin-bottom: 0.5rem;">6️⃣ الحصول على الإجازة</h3>
+                            <p>(بالسند المتصل)</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'الخلاصة والنتائج',
+                subtitle: 'خلاصة البحث',
+                content: `
+                    <ul class="content-list">
+                        <li>✅ أبو عمرو البصري: إمام عظيم في القراءة والعلوم الإسلامية</li>
+                        <li>✅ قراءته: متواترة صحيحة مقبولة عند الأمة</li>
+                        <li>✅ رواته: الدوري والسوسي (عن اليزيدي)</li>
+                        <li>✅ أصول قراءته: محكمة مضبوطة بالنقل المتواتر</li>
+                        <li>✅ انتشارها: واسع تاريخياً وحاضراً</li>
+                        <li>✅ فائدتها: ثراء المعاني وإظهار الإعجاز</li>
+                    </ul>
+                    <div class="quote" style="margin-top: 2rem;">
+                        <strong>توصية:</strong> على طلاب العلم الاهتمام بالقراءات وتعلمها والسعي للحصول على الإجازات المسندة
+                    </div>
+                `
+            },
+            {
+                type: 'content',
+                title: 'المصادر والمراجع',
+                subtitle: 'من أهم المصادر',
+                content: `
+                    <ul class="content-list">
+                        <li>📚 <strong>غاية النهاية في طبقات القراء</strong> - ابن الجزري</li>
+                        <li>📚 <strong>معرفة القراء الكبار</strong> - الذهبي</li>
+                        <li>📚 <strong>النشر في القراءات العشر</strong> - ابن الجزري</li>
+                        <li>📚 <strong>الشاطبية (حرز الأماني)</strong> - القاسم الشاطبي</li>
+                        <li>📚 <strong>طيبة النشر</strong> - ابن الجزري</li>
+                        <li>📚 <strong>إتحاف فضلاء البشر</strong> - الدمياطي</li>
+                        <li>📚 <strong>الكوكب الدري في قراءة أبي عمرو البصري</strong> - المتولي</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'content',
+                title: 'أسئلة ومناقشة',
+                subtitle: 'أسئلة للتفكير والنقاش',
+                content: `
+                    <div class="grid-list">
+                        <div class="grid-item" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb);">
+                            <h3 style="color: #1e3c72;">❓ ما الحكمة من تعدد القراءات المتواترة؟</h3>
+                        </div>
+                        <div class="grid-item" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2);">
+                            <h3 style="color: #1e3c72;">❓ لماذا انتشرت قراءة أبي عمرو هذا الانتشار الواسع؟</h3>
+                        </div>
+                        <div class="grid-item" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7);">
+                            <h3 style="color: #1e3c72;">❓ ما أهمية الإسناد في علم القراءات؟</h3>
+                        </div>
+                        <div class="grid-item" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9);">
+                            <h3 style="color: #1e3c72;">❓ كيف نوفق بين اختلاف القراءات ووحدة القرآن؟</h3>
+                        </div>
+                        <div class="grid-item" style="background: linear-gradient(135deg, #fce4ec, #f8bbd0);">
+                            <h3 style="color: #1e3c72;">❓ ما واجبنا نحو حفظ القراءات المتواترة؟</h3>
+                        </div>
+                    </div>
+                    <p style="text-align: center; font-size: 1.5rem; margin-top: 3rem; color: #2a5298; font-weight: 700;">
+                        نرحب بأسئلتكم واستفساراتكم
+                    </p>
+                `
+            },
+            {
+                type: 'title',
+                title: 'الخاتمة',
+                subtitle: '',
+                content: `
+                    <div style="text-align: center;">
+                        <div style="font-family: 'Amiri', serif; font-size: 2.5rem; color: #ffd700; margin-bottom: 2rem; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);">
+                            🌟
+                        </div>
+                        <p style="font-size: 1.5rem; margin-bottom: 2rem; line-height: 2;">
+                            نسأل الله أن ينفعنا بما علمنا<br>
+                            وأن يجعل القرآن ربيع قلوبنا ونور صدورنا<br>
+                            وأن يحفظ علينا كتابه وسنة نبيه ﷺ<br>
+                            وأن يجزي أئمة القراءات خير الجزاء
+                        </p>
+                        <div style="font-size: 2rem; font-weight: 700; color: #ffd700; margin: 3rem 0;">
+                            شكراً لحسن استماعكم
+                        </div>
+                        <div style="font-family: 'Amiri', serif; font-size: 2rem; color: #fff; margin-top: 2rem;">
+                            والسلام عليكم ورحمة الله وبركاته
+                        </div>
+                        <div style="font-size: 3rem; margin-top: 2rem;">
+                            🌙
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // Global Variables
+        let currentSlideIndex = 0;
+        let isTransitioning = false;
+
+        // Initialize Presentation
+        function initPresentation() {
+            generateSlides();
+            updateSlideCounter();
+            updateProgressBar();
+        }
+
+        // Generate Slides
+        function generateSlides() {
+            const slideContainer = document.getElementById('slideContainer');
+            slideContainer.innerHTML = '';
+
+            slides.forEach((slide, index) => {
+                const slideElement = document.createElement('div');
+                slideElement.className = `slide ${index === 0 ? 'active' : ''}`;
+                slideElement.dataset.index = index;
+
+                const slideContent = document.createElement('div');
+                slideContent.className = 'slide-content';
+
+                if (slide.type === 'title') {
+                    slideElement.classList.add('title-slide');
+                }
+
+                let contentHTML = '';
+                
+                if (slide.title) {
+                    contentHTML += `<h1 class="slide-title">${slide.title}</h1>`;
+                }
+                
+                if (slide.subtitle) {
+                    contentHTML += `<h2 class="slide-subtitle">${slide.subtitle}</h2>`;
+                }
+                
+                if (slide.content) {
+                    contentHTML += slide.content;
+                }
+
+                slideContent.innerHTML = contentHTML;
+                slideElement.appendChild(slideContent);
+                slideContainer.appendChild(slideElement);
+            });
+        }
+
+        // Start Presentation
+        function startPresentation() {
+            // Request fullscreen
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+
+            // Hide welcome screen
+            document.getElementById('welcomeScreen').classList.add('hidden');
+
+            // Show presentation
+            setTimeout(() => {
+                document.getElementById('presentationContainer').classList.add('active');
+                document.getElementById('navigation').classList.add('active');
+                document.getElementById('progressContainer').classList.add('active');
+                document.getElementById('slideCounter').classList.add('active');
+            }, 800);
+        }
+
+        // Navigate to Next Slide
+        function nextSlide() {
+            if (isTransitioning || currentSlideIndex >= slides.length - 1) return;
+            
+            isTransitioning = true;
+            const currentSlide = document.querySelector('.slide.active');
+            
+            currentSlide.classList.add('next');
+            currentSlide.classList.remove('active');
+            
+            currentSlideIndex++;
+            
+            setTimeout(() => {
+                const nextSlide = document.querySelector(`.slide[data-index="${currentSlideIndex}"]`);
+                nextSlide.classList.add('active');
+                currentSlide.classList.remove('next');
+                
+                updateSlideCounter();
+                updateProgressBar();
+                updateNavigationButtons();
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 100);
+            }, 600);
+        }
+
+        // Navigate to Previous Slide
+        function previousSlide() {
+            if (isTransitioning || currentSlideIndex <= 0) return;
+            
+            isTransitioning = true;
+            const currentSlide = document.querySelector('.slide.active');
+            
+            currentSlide.classList.add('prev');
+            currentSlide.classList.remove('active');
+            
+            currentSlideIndex--;
+            
+            setTimeout(() => {
+                const prevSlide = document.querySelector(`.slide[data-index="${currentSlideIndex}"]`);
+                prevSlide.classList.add('active');
+                currentSlide.classList.remove('prev');
+                
+                updateSlideCounter();
+                updateProgressBar();
+                updateNavigationButtons();
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 100);
+            }, 600);
+        }
+
+        // Update Slide Counter
+        function updateSlideCounter() {
+            document.getElementById('currentSlide').textContent = currentSlideIndex + 1;
+            document.getElementById('totalSlides').textContent = slides.length;
+        }
+
+        // Update Progress Bar
+        function updateProgressBar() {
+            const progress = ((currentSlideIndex + 1) / slides.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Update Navigation Buttons
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            
+            prevButton.disabled = currentSlideIndex === 0;
+            nextButton.disabled = currentSlideIndex === slides.length - 1;
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('presentationContainer').classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                previousSlide(); // RTL direction
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                nextSlide(); // RTL direction
+            } else if (e.key === 'Home') {
+                // Go to first slide
+                while (currentSlideIndex > 0) {
+                    previousSlide();
+                }
+            } else if (e.key === 'End') {
+                // Go to last slide
+                while (currentSlideIndex < slides.length - 1) {
+                    nextSlide();
+                }
+            }
+        });
+
+        // Exit fullscreen on Escape
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                // Optionally handle exit fullscreen
+            }
+        });
+
+        // Initialize on Load
+        window.addEventListener('load', initPresentation);
+    </script>
+</body>
+</html>
