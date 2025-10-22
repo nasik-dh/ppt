@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أبو عمرو البصري ورواته - عرض تقديمي احترافي</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@200;300;400;600;700;800;900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Islamic Geometric Pattern Overlay -->
+    <div class="pattern-overlay"></div>
+    
+    <!-- Animated Background Shapes -->
+    <div class="animated-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+        <div class="shape shape-5"></div>
+    </div>
+
+    <!-- Cursor Effect -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-outline" id="cursorOutline"></div>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="islamic-star">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+            <h2 class="loading-title">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <p class="loading-text">جاري التحميل...</p>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-overlay"></div>
+        <div class="welcome-content">
+            <div class="bismillah animate__animated animate__fadeInDown">
+                <i class="fas fa-star-and-crescent"></i>
+                <h1>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h1>
+                <i class="fas fa-star-and-crescent"></i>
+            </div>
+            
+            <div class="welcome-title animate__animated animate__fadeInUp animate__delay-1s">
+                <h2>أبو عمرو البصري ورواته</h2>
+                <div class="title-decoration">
+                    <span class="decoration-line"></span>
+                    <i class="fas fa-book-quran"></i>
+                    <span class="decoration-line"></span>
+                </div>
+                <h3>أصول قراءتهم وضوابطها</h3>
+            </div>
+
+            <div class="welcome-features animate__animated animate__fadeIn animate__delay-2s">
+                <div class="feature-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>35 شريحة تعليمية</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>دراسة شاملة ومفصلة</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-certificate"></i>
+                    <span>مصادر موثوقة</span>
+                </div>
+            </div>
+
+            <button class="start-button animate__animated animate__pulse animate__infinite" id="startButton">
+                <span class="button-text">ابدأ العرض</span>
+                <span class="button-icon"><i class="fas fa-play"></i></span>
+                <div class="button-glow"></div>
+            </button>
+
+            <div class="scroll-indicator animate__animated animate__bounce animate__infinite">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Presentation Container -->
+    <div class="presentation-container" id="presentationContainer">
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-glow"></div>
+        </div>
+
+        <!-- Top Navigation Bar -->
+        <div class="top-nav" id="topNav">
+            <div class="nav-brand">
+                <i class="fas fa-book-quran"></i>
+                <span>أبو عمرو البصري</span>
+            </div>
+            
+            <div class="nav-controls">
+                <button class="nav-control" id="menuButton" title="القائمة">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button class="nav-control" id="themeToggle" title="تبديل الوضع">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-control" id="fullscreenButton" title="ملء الشاشة">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Slide Counter -->
+        <div class="slide-counter" id="slideCounter">
+            <div class="counter-content">
+                <span class="current-slide" id="currentSlide">1</span>
+                <span class="counter-separator">/</span>
+                <span class="total-slides" id="totalSlides">35</span>
+            </div>
+        </div>
+
+        <!-- Slides Container -->
+        <div class="slides-wrapper" id="slidesWrapper">
+            <!-- Slides will be injected here by JavaScript -->
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="slide-navigation">
+            <button class="nav-button prev-button" id="prevButton">
+                <i class="fas fa-chevron-right"></i>
+                <span class="nav-tooltip">السابق</span>
+            </button>
+            <button class="nav-button next-button" id="nextButton">
+                <i class="fas fa-chevron-left"></i>
+                <span class="nav-tooltip">التالي</span>
+            </button>
+        </div>
+
+        <!-- Slide Thumbnails Sidebar -->
+        <div class="thumbnails-sidebar" id="thumbnailsSidebar">
+            <div class="sidebar-header">
+                <h3>الشرائح</h3>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="thumbnails-container" id="thumbnailsContainer">
+                <!-- Thumbnails will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Keyboard Shortcuts Help -->
+        <div class="keyboard-help" id="keyboardHelp">
+            <div class="help-content">
+                <h3><i class="fas fa-keyboard"></i> اختصارات لوحة المفاتيح</h3>
+                <div class="shortcuts-grid">
+                    <div class="shortcut-item">
+                        <kbd>←</kbd>
+                        <span>الشريحة التالية</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>→</kbd>
+                        <span>الشريحة السابقة</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Home</kbd>
+                        <span>أول شريحة</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>End</kbd>
+                        <span>آخر شريحة</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>F</kbd>
+                        <span>ملء الشاشة</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Esc</kbd>
+                        <span>خروج</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>القائمة الرئيسية</h2>
+            <div class="menu-sections">
+                <div class="menu-section" data-section="intro">
+                    <i class="fas fa-home"></i>
+                    <span>المقدمة</span>
+                    <small>الشرائح 1-3</small>
+                </div>
+                <div class="menu-section" data-section="biography">
+                    <i class="fas fa-user"></i>
+                    <span>السيرة الذاتية</span>
+                    <small>الشرائح 4-7</small>
+                </div>
+                <div class="menu-section" data-section="methodology">
+                    <i class="fas fa-book"></i>
+                    <span>المنهج والقراءة</span>
+                    <small>الشرائح 8-15</small>
+                </div>
+                <div class="menu-section" data-section="narrators">
+                    <i class="fas fa-users"></i>
+                    <span>الرواة</span>
+                    <small>الشرائح 16-22</small>
+                </div>
+                <div class="menu-section" data-section="principles">
+                    <i class="fas fa-list"></i>
+                    <span>الأصول والفرش</span>
+                    <small>الشرائح 23-30</small>
+                </div>
+                <div class="menu-section" data-section="conclusion">
+                    <i class="fas fa-flag-checkered"></i>
+                    <span>الخاتمة</span>
+                    <small>الشرائح 31-35</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
