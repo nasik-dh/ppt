@@ -63,8 +63,8 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: #000000;
     overflow: hidden;
 }
@@ -95,22 +95,17 @@ html, body {
     z-index: 2;
 }
 
-.slide.prev {
-    transform: translateX(-100%);
-}
-
-.slide.next {
-    transform: translateX(100%);
-}
-
-/* Slide Image - Perfect Fit */
+/* Slide Image - PERFECTLY FITTED TO SCREEN */
 .slide-image {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;
+    display: block;
 }
 
 /* Audio Overlay */
@@ -296,13 +291,14 @@ html, body {
 
 /* Slide Indicators */
 .slide-indicators {
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 12px;
     z-index: 100;
+    pointer-events: auto;
 }
 
 .indicator {
@@ -434,18 +430,48 @@ html, body {
     }
 }
 
-/* Fullscreen Styles */
+/* Fullscreen Styles - CRITICAL FOR PERFECT FIT */
 .slides-container:-webkit-full-screen {
-    width: 100%;
-    height: 100%;
+    width: 100vw !important;
+    height: 100vh !important;
 }
 
 .slides-container:-moz-full-screen {
-    width: 100%;
-    height: 100%;
+    width: 100vw !important;
+    height: 100vh !important;
 }
 
 .slides-container:fullscreen {
-    width: 100%;
-    height: 100%;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+.slides-container:-webkit-full-screen .slide {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+.slides-container:-moz-full-screen .slide {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+.slides-container:fullscreen .slide {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+.slides-container:-webkit-full-screen .slide-image {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+}
+
+.slides-container:-moz-full-screen .slide-image {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+}
+
+.slides-container:fullscreen .slide-image {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
 }
