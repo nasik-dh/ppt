@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Presentation Slides</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,63 +16,128 @@
     <div id="slidesContainer" class="slides-container">
         <!-- Slide 1 -->
         <div class="slide active" data-slide="1">
-            <img src="https://artsfest.vercel.app/slides/1.jpg" alt="Slide 1">
+            <img src="https://artsfest.vercel.app/slides/1.jpg" alt="Slide 1" class="slide-image">
         </div>
 
         <!-- Slide 2 -->
         <div class="slide" data-slide="2">
-            <img src="https://artsfest.vercel.app/slides/2.jpg" alt="Slide 2">
+            <img src="https://artsfest.vercel.app/slides/2.jpg" alt="Slide 2" class="slide-image">
         </div>
 
         <!-- Slide 3 -->
         <div class="slide" data-slide="3">
-            <img src="https://artsfest.vercel.app/slides/12.jpg" alt="Slide 3">
-            <div class="audio-player">
-                <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile" class="profile-pic">
-                <div class="whatsapp-audio">
-                    <button class="play-btn" id="playBtn3">▶</button>
-                    <div class="audio-wave"></div>
-                    <span class="audio-duration">0:00</span>
+            <img src="https://artsfest.vercel.app/slides/12.jpg" alt="Slide 3" class="slide-image">
+            <div class="audio-overlay">
+                <div class="profile-container">
+                    <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile" class="profile-pic">
                 </div>
-                <audio id="audio3" src="https://quaf.me/audios/sibaq.mp3"></audio>
+                <div class="whatsapp-audio-player">
+                    <button class="audio-play-btn" id="playBtn3">
+                        <svg class="play-icon" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" style="display: none;">
+                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                        </svg>
+                    </button>
+                    <div class="audio-waveform">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <div class="audio-time">0:00</div>
+                    <div class="audio-progress-bar">
+                        <div class="audio-progress"></div>
+                    </div>
+                </div>
+                <audio id="audio3" src="https://quaf.me/audios/sibaq.mp3" preload="metadata"></audio>
             </div>
         </div>
 
         <!-- Slide 4 -->
         <div class="slide" data-slide="4">
-            <img src="https://artsfest.vercel.app/slides/13.jpg" alt="Slide 4">
+            <img src="https://artsfest.vercel.app/slides/13.jpg" alt="Slide 4" class="slide-image">
         </div>
 
         <!-- Slide 5 -->
         <div class="slide" data-slide="5">
-            <img src="https://artsfest.vercel.app/slides/14.jpg" alt="Slide 5">
-            <div class="audio-player">
-                <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile" class="profile-pic">
-                <div class="whatsapp-audio">
-                    <button class="play-btn" id="playBtn5">▶</button>
-                    <div class="audio-wave"></div>
-                    <span class="audio-duration">0:00</span>
+            <img src="https://artsfest.vercel.app/slides/14.jpg" alt="Slide 5" class="slide-image">
+            <div class="audio-overlay">
+                <div class="profile-container">
+                    <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile" class="profile-pic">
                 </div>
-                <audio id="audio5" src="https://quaf.me/audios/sibaq.mp3"></audio>
+                <div class="whatsapp-audio-player">
+                    <button class="audio-play-btn" id="playBtn5">
+                        <svg class="play-icon" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" style="display: none;">
+                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                        </svg>
+                    </button>
+                    <div class="audio-waveform">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <div class="audio-time">0:00</div>
+                    <div class="audio-progress-bar">
+                        <div class="audio-progress"></div>
+                    </div>
+                </div>
+                <audio id="audio5" src="https://quaf.me/audios/sibaq.mp3" preload="metadata"></audio>
             </div>
         </div>
 
         <!-- Slide 6 -->
         <div class="slide" data-slide="6">
-            <img src="https://artsfest.vercel.app/slides/33.jpg" alt="Slide 6">
+            <img src="https://artsfest.vercel.app/slides/33.jpg" alt="Slide 6" class="slide-image">
         </div>
 
         <!-- Slide 7 -->
         <div class="slide" data-slide="7">
-            <img src="https://artsfest.vercel.app/slides/34.jpg" alt="Slide 7">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/-VJf4ByNRuI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <img src="https://artsfest.vercel.app/slides/34.jpg" alt="Slide 7" class="slide-image">
+            <div class="video-overlay">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/-VJf4ByNRuI?rel=0&modestbranding=1&autohide=1&showinfo=0" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
             </div>
         </div>
 
         <!-- Slide 8 -->
         <div class="slide" data-slide="8">
-            <img src="https://artsfest.vercel.app/slides/35.jpg" alt="Slide 8">
+            <img src="https://artsfest.vercel.app/slides/35.jpg" alt="Slide 8" class="slide-image">
+        </div>
+
+        <!-- Slide Navigation Indicators -->
+        <div class="slide-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
         </div>
     </div>
 
