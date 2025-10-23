@@ -97,13 +97,15 @@
 
         /* Audio Player Styling */
         .profile-icon {
-            width: 120px;
-            height: 120px;
+            width: 240px; /* Doubled from 120px */
+            height: 240px; /* Doubled from 120px */
             border-radius: 50%;
             overflow: hidden;
-            margin-bottom: 30px;
+            margin-bottom: 60px; /* Doubled from 30px */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 3px solid white;
+            border: 6px solid white; /* Doubled from 3px */
+            position: relative;
+            transition: transform 0.1s ease-out;
         }
 
         .profile-icon img {
@@ -117,9 +119,9 @@
             align-items: center;
             background-color: #e0f7fa;
             border-radius: 50px;
-            padding: 10px 20px;
+            padding: 20px 40px; /* Doubled from 10px 20px */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
+            max-width: 600px; /* Doubled from 300px */
             width: 90%;
         }
 
@@ -127,26 +129,31 @@
             background-color: #25d366;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 80px; /* Doubled from 40px */
+            height: 80px; /* Doubled from 40px */
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            margin-right: 15px;
+            margin-right: 30px; /* Doubled from 15px */
+            transition: transform 0.2s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
         }
 
         .play-button svg {
-            width: 20px;
-            height: 20px;
+            width: 40px; /* Doubled from 20px */
+            height: 40px; /* Doubled from 20px */
             fill: white;
         }
 
         .progress-container {
             flex-grow: 1;
-            height: 4px;
+            height: 8px; /* Doubled from 4px */
             background-color: #b2dfdb;
-            border-radius: 2px;
+            border-radius: 4px; /* Doubled from 2px */
             position: relative;
             cursor: pointer;
         }
@@ -155,15 +162,26 @@
             position: absolute;
             height: 100%;
             background-color: #25d366;
-            border-radius: 2px;
+            border-radius: 4px; /* Doubled from 2px */
             width: 0%;
         }
 
         .time {
-            margin-left: 15px;
-            font-size: 0.8rem;
+            margin-left: 30px; /* Doubled from 15px */
+            font-size: 1.6rem; /* Doubled from 0.8rem */
             color: #546e7a;
-            min-width: 40px;
+            min-width: 80px; /* Doubled from 40px */
+        }
+
+        /* Audio-reactive animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .audio-reactive {
+            animation: pulse 0.3s infinite;
         }
 
         /* Video Slide Styling */
@@ -250,8 +268,28 @@
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .profile-icon {
-                width: 100px;
-                height: 100px;
+                width: 180px;
+                height: 180px;
+            }
+            
+            .audio-player {
+                max-width: 500px;
+                padding: 15px 30px;
+            }
+            
+            .play-button {
+                width: 60px;
+                height: 60px;
+                margin-right: 20px;
+            }
+            
+            .play-button svg {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .time {
+                font-size: 1.2rem;
             }
             
             .video-container {
@@ -262,13 +300,13 @@
 
         @media (max-height: 500px) and (orientation: landscape) {
             .profile-icon {
-                width: 80px;
-                height: 80px;
-                margin-bottom: 15px;
+                width: 140px;
+                height: 140px;
+                margin-bottom: 30px;
             }
             
             .audio-player {
-                padding: 8px 15px;
+                padding: 15px 25px;
             }
         }
     </style>
@@ -296,11 +334,11 @@
             <div class="slide">
                 <img src="https://artsfest.vercel.app/slides/12.jpg" alt="Slide 3 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon">
+                    <div class="profile-icon" id="profile-icon-1">
                         <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile">
                     </div>
-                    <div class="audio-player">
-                        <button class="play-button">
+                    <div class="audio-player" id="audio-player-1">
+                        <button class="play-button" id="play-button-1">
                             <svg viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"></path>
                             </svg>
@@ -309,7 +347,7 @@
                             <div class="progress-bar"></div>
                         </div>
                         <div class="time">0:00</div>
-                        <audio src="https://quaf.me/audios/sibaq.mp3"></audio>
+                        <audio src="https://quaf.me/audios/sibaq.mp3" id="audio-1"></audio>
                     </div>
                 </div>
             </div>
@@ -323,11 +361,11 @@
             <div class="slide">
                 <img src="https://artsfest.vercel.app/slides/14.jpg" alt="Slide 5 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon">
+                    <div class="profile-icon" id="profile-icon-2">
                         <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile">
                     </div>
-                    <div class="audio-player">
-                        <button class="play-button">
+                    <div class="audio-player" id="audio-player-2">
+                        <button class="play-button" id="play-button-2">
                             <svg viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"></path>
                             </svg>
@@ -336,7 +374,7 @@
                             <div class="progress-bar"></div>
                         </div>
                         <div class="time">0:00</div>
-                        <audio src="https://quaf.me/audios/sibaq.mp3"></audio>
+                        <audio src="https://quaf.me/audios/sibaq.mp3" id="audio-2"></audio>
                     </div>
                 </div>
             </div>
@@ -399,7 +437,6 @@
             const indicators = document.querySelectorAll('.indicator');
             const exitButton = document.getElementById('exit-fullscreen');
             const landscapeMessage = document.getElementById('landscape-message');
-            const audioPlayers = document.querySelectorAll('.audio-player');
             
             // Variables
             let currentSlide = 0;
@@ -586,23 +623,75 @@
                 }
             });
             
-            // Initialize audio players
-            audioPlayers.forEach(player => {
-                const playButton = player.querySelector('.play-button');
-                const progressBar = player.querySelector('.progress-bar');
-                const timeDisplay = player.querySelector('.time');
-                const audio = player.querySelector('audio');
+            // Initialize audio players with reactive animations
+            function initAudioPlayer(playerIndex) {
+                const playButton = document.getElementById(`play-button-${playerIndex}`);
+                const progressBar = document.querySelector(`#audio-player-${playerIndex} .progress-bar`);
+                const timeDisplay = document.querySelector(`#audio-player-${playerIndex} .time`);
+                const audio = document.getElementById(`audio-${playerIndex}`);
+                const profileIcon = document.getElementById(`profile-icon-${playerIndex}`);
                 
                 let isPlaying = false;
+                let audioContext, analyser, dataArray, animationId;
+                
+                // Create audio context and analyser
+                function setupAudioAnalysis() {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    const source = audioContext.createMediaElementSource(audio);
+                    
+                    source.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                    
+                    analyser.fftSize = 256;
+                    const bufferLength = analyser.frequencyBinCount;
+                    dataArray = new Uint8Array(bufferLength);
+                }
+                
+                // Visualize audio
+                function visualize() {
+                    if (!isPlaying) return;
+                    
+                    analyser.getByteFrequencyData(dataArray);
+                    
+                    // Calculate average volume
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        sum += dataArray[i];
+                    }
+                    const average = sum / dataArray.length;
+                    
+                    // Scale profile icon based on volume
+                    const scale = 1 + (average / 256) * 0.2; // Scale up to 20% based on volume
+                    profileIcon.style.transform = `scale(${scale})`;
+                    
+                    animationId = requestAnimationFrame(visualize);
+                }
                 
                 // Play/Pause functionality
                 playButton.addEventListener('click', function() {
                     if (isPlaying) {
                         audio.pause();
                         playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                        cancelAnimationFrame(animationId);
+                        profileIcon.style.transform = 'scale(1)';
                     } else {
-                        audio.play();
-                        playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                        // Set up audio analysis if not already done
+                        if (!analyser) {
+                            setupAudioAnalysis();
+                        }
+                        
+                        // Resume audio context if it was suspended
+                        if (audioContext.state === 'suspended') {
+                            audioContext.resume();
+                        }
+                        
+                        audio.play().then(() => {
+                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                            visualize();
+                        }).catch(error => {
+                            console.error('Error playing audio:', error);
+                        });
                     }
                     isPlaying = !isPlaying;
                 });
@@ -619,7 +708,7 @@
                 });
                 
                 // Click on progress bar to seek
-                player.querySelector('.progress-container').addEventListener('click', function(e) {
+                document.querySelector(`#audio-player-${playerIndex} .progress-container`).addEventListener('click', function(e) {
                     const progressContainer = this;
                     const clickPosition = (e.pageX - progressContainer.getBoundingClientRect().left) / progressContainer.offsetWidth;
                     audio.currentTime = clickPosition * audio.duration;
@@ -631,8 +720,14 @@
                     playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
                     progressBar.style.width = '0%';
                     timeDisplay.textContent = '0:00';
+                    cancelAnimationFrame(animationId);
+                    profileIcon.style.transform = 'scale(1)';
                 });
-            });
+            }
+            
+            // Initialize both audio players
+            initAudioPlayer(1);
+            initAudioPlayer(2);
         });
     </script>
 </body>
