@@ -123,6 +123,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             width: 90%;
+            position: relative;
         }
 
         .play-button {
@@ -171,6 +172,16 @@
             font-size: 1.6rem;
             color: #546e7a;
             min-width: 80px;
+        }
+
+        .audio-status {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
         }
 
         /* Video Slide Styling */
@@ -364,6 +375,7 @@
                         <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile">
                     </div>
                     <div class="audio-player" id="audio-player-1">
+                        <div class="audio-status" id="audio-status-1">Click play to start audio</div>
                         <button class="play-button" id="play-button-1">
                             <svg viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"></path>
@@ -373,7 +385,7 @@
                             <div class="progress-bar"></div>
                         </div>
                         <div class="time">0:00</div>
-                        <audio src="https://quaf.me/audios/sibaq.mp3" id="audio-1"></audio>
+                        <audio src="https://quaf.me/audios/sibaq.mp3" id="audio-1" preload="metadata"></audio>
                     </div>
                 </div>
             </div>
@@ -391,6 +403,7 @@
                         <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile">
                     </div>
                     <div class="audio-player" id="audio-player-2">
+                        <div class="audio-status" id="audio-status-2">Click play to start audio</div>
                         <button class="play-button" id="play-button-2">
                             <svg viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"></path>
@@ -400,7 +413,7 @@
                             <div class="progress-bar"></div>
                         </div>
                         <div class="time">0:00</div>
-                        <audio src="https://quaf.me/audios/sibaq.mp3" id="audio-2"></audio>
+                        <audio src="https://quaf.me/audios/sibaq.mp3" id="audio-2" preload="metadata"></audio>
                     </div>
                 </div>
             </div>
@@ -501,36 +514,6 @@
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/35.jpg" alt="Slide 35">
             </div>
-
-            <!-- 
-            =============================================
-            ADD NEW AUDIO SLIDES HERE - USE THIS TEMPLATE:
-            =============================================
-            
-            <div class="slide">
-                <img src="YOUR_BACKGROUND_IMAGE_URL" alt="New Slide Background">
-                <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-3">
-                        <img src="https://dqdhdc.netlify.app/pic/569.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-3">
-                        <button class="play-button" id="play-button-3">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
-                        </div>
-                        <div class="time">0:00</div>
-                        <audio src="YOUR_AUDIO_URL" id="audio-3"></audio>
-                    </div>
-                </div>
-            </div>
-            
-            =============================================
-            -->
-
         </div>
         
         <!-- Slide Indicators -->
@@ -570,7 +553,6 @@
             <div class="indicator"></div>
             <div class="indicator"></div>
             <div class="indicator"></div>
-            <!-- ADD MORE INDICATORS HERE WHEN ADDING SLIDES -->
         </div>
     </div>
 
@@ -787,85 +769,105 @@
                 const timeDisplay = document.querySelector(`#audio-player-${playerIndex} .time`);
                 const audio = document.getElementById(`audio-${playerIndex}`);
                 const profileIcon = document.getElementById(`profile-icon-${playerIndex}`);
+                const audioStatus = document.getElementById(`audio-status-${playerIndex}`);
                 
                 let isPlaying = false;
-                let audioContext, analyser, dataArray, animationId;
+                let animationId;
                 
-                // Create audio context and analyser
-                function setupAudioAnalysis() {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    analyser = audioContext.createAnalyser();
-                    const source = audioContext.createMediaElementSource(audio);
+                // Show audio status
+                function showStatus(message, isError = false) {
+                    audioStatus.textContent = message;
+                    audioStatus.style.color = isError ? '#ff4444' : '#666';
                     
-                    source.connect(analyser);
-                    analyser.connect(audioContext.destination);
-                    
-                    analyser.fftSize = 256;
-                    const bufferLength = analyser.frequencyBinCount;
-                    dataArray = new Uint8Array(bufferLength);
+                    setTimeout(() => {
+                        if (audioStatus.textContent === message) {
+                            audioStatus.textContent = isPlaying ? 'Playing' : 'Paused';
+                        }
+                    }, 3000);
                 }
                 
-                // Visualize audio
-                function visualize() {
+                // Simple animation without Web Audio API
+                function simpleAnimate() {
                     if (!isPlaying) return;
                     
-                    analyser.getByteFrequencyData(dataArray);
-                    
-                    // Calculate average volume
-                    let sum = 0;
-                    for (let i = 0; i < dataArray.length; i++) {
-                        sum += dataArray[i];
-                    }
-                    const average = sum / dataArray.length;
-                    
-                    // Scale profile icon based on volume
-                    const scale = 1 + (average / 256) * 0.2;
+                    // Create a simple pulsing animation
+                    const scale = 1 + Math.sin(Date.now() / 200) * 0.1;
                     profileIcon.style.transform = `scale(${scale})`;
                     
-                    animationId = requestAnimationFrame(visualize);
+                    animationId = requestAnimationFrame(simpleAnimate);
                 }
                 
                 // Play/Pause functionality
                 playButton.addEventListener('click', function() {
                     if (isPlaying) {
+                        // Pause audio
                         audio.pause();
                         playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
-                        cancelAnimationFrame(animationId);
+                        if (animationId) {
+                            cancelAnimationFrame(animationId);
+                        }
                         profileIcon.style.transform = 'scale(1)';
+                        showStatus('Paused');
+                        isPlaying = false;
                     } else {
-                        if (!analyser) {
-                            setupAudioAnalysis();
-                        }
+                        // Play audio
+                        const playPromise = audio.play();
                         
-                        if (audioContext.state === 'suspended') {
-                            audioContext.resume();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                // Audio started successfully
+                                playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                simpleAnimate();
+                                showStatus('Playing');
+                                isPlaying = true;
+                            }).catch(error => {
+                                // Audio failed to play
+                                console.error('Error playing audio:', error);
+                                showStatus('Audio Error: ' + error.message, true);
+                                
+                                // Try fallback approach - reset and try again
+                                try {
+                                    audio.currentTime = 0;
+                                    const fallbackPlay = audio.play();
+                                    if (fallbackPlay !== undefined) {
+                                        fallbackPlay.then(() => {
+                                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                            simpleAnimate();
+                                            showStatus('Playing (fallback)');
+                                            isPlaying = true;
+                                        }).catch(fallbackError => {
+                                            console.error('Fallback also failed:', fallbackError);
+                                            showStatus('Cannot play audio', true);
+                                        });
+                                    }
+                                } catch (fallbackError) {
+                                    console.error('Fallback also failed:', fallbackError);
+                                    showStatus('Cannot play audio', true);
+                                }
+                            });
                         }
-                        
-                        audio.play().then(() => {
-                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
-                            visualize();
-                        }).catch(error => {
-                            console.error('Error playing audio:', error);
-                        });
                     }
-                    isPlaying = !isPlaying;
                 });
                 
                 // Update progress bar
                 audio.addEventListener('timeupdate', function() {
-                    const progress = (audio.currentTime / audio.duration) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    
-                    const minutes = Math.floor(audio.currentTime / 60);
-                    const seconds = Math.floor(audio.currentTime % 60);
-                    timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    if (audio.duration && !isNaN(audio.duration)) {
+                        const progress = (audio.currentTime / audio.duration) * 100;
+                        progressBar.style.width = `${progress}%`;
+                        
+                        const minutes = Math.floor(audio.currentTime / 60);
+                        const seconds = Math.floor(audio.currentTime % 60);
+                        timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    }
                 });
                 
                 // Click on progress bar to seek
                 document.querySelector(`#audio-player-${playerIndex} .progress-container`).addEventListener('click', function(e) {
-                    const progressContainer = this;
-                    const clickPosition = (e.pageX - progressContainer.getBoundingClientRect().left) / progressContainer.offsetWidth;
-                    audio.currentTime = clickPosition * audio.duration;
+                    if (audio.duration && !isNaN(audio.duration)) {
+                        const progressContainer = this;
+                        const clickPosition = (e.pageX - progressContainer.getBoundingClientRect().left) / progressContainer.offsetWidth;
+                        audio.currentTime = clickPosition * audio.duration;
+                    }
                 });
                 
                 // Reset when audio ends
@@ -874,21 +876,31 @@
                     playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
                     progressBar.style.width = '0%';
                     timeDisplay.textContent = '0:00';
-                    cancelAnimationFrame(animationId);
+                    if (animationId) {
+                        cancelAnimationFrame(animationId);
+                    }
                     profileIcon.style.transform = 'scale(1)';
+                    showStatus('Finished');
                 });
+                
+                // Handle audio loading
+                audio.addEventListener('canplaythrough', function() {
+                    console.log(`Audio ${playerIndex} loaded and ready`);
+                    showStatus('Ready to play');
+                });
+                
+                audio.addEventListener('error', function(e) {
+                    console.error(`Audio error for player ${playerIndex}:`, e);
+                    showStatus('Audio load error', true);
+                });
+                
+                // Preload audio
+                audio.load();
             }
             
             // Initialize existing audio players
             initAudioPlayer(1);
             initAudioPlayer(2);
-            
-            // =============================================
-            // ADD INITIALIZATION FOR NEW AUDIO PLAYERS HERE
-            // =============================================
-            // initAudioPlayer(3);
-            // initAudioPlayer(4);
-            // etc...
         });
     </script>
 </body>
