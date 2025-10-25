@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>Slide Presentation</title>
+    <title>MABAHIS PPT - By Muhammed Nasik KV</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
         }
 
         html, body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f5f5;
             height: 100%;
             width: 100%;
@@ -31,45 +31,55 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: white;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             flex-direction: column;
             padding: 20px;
+            text-align: center;
         }
 
         #start-button {
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            background-color: #4a6bff;
-            color: white;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            background-color: #ffffff;
+            color: #1a2a6c;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 20px;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         #start-button:hover {
-            background-color: #3a5bef;
+            background-color: #1a2a6c;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .start-info {
             text-align: center;
             max-width: 600px;
             margin-bottom: 30px;
+            color: white;
         }
 
         .start-info h1 {
             margin-bottom: 15px;
-            color: #333;
+            color: white;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .start-info p {
-            color: #666;
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.5;
+            font-size: 1.2rem;
         }
 
         /* Slides Container */
@@ -137,20 +147,75 @@
             justify-content: center;
             align-items: center;
             z-index: 2;
-            padding: 20px;
+            padding: 5vh 5vw;
+            gap: 4vh;
         }
 
-        /* Audio Player Styling */
+        /* Audio Status Styling */
+        .audio-status-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0;
+            order: 1;
+        }
+
+        .audio-status {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            font-size: 1rem;
+            color: #333;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            font-weight: 500;
+            min-width: 200px;
+            max-width: 80%;
+            transition: all 0.3s ease;
+        }
+
+        .audio-status.playing {
+            background: rgba(37, 211, 102, 0.15);
+            color: #1a7c3a;
+        }
+
+        .audio-status.paused {
+            background: rgba(255, 193, 7, 0.15);
+            color: #b28a00;
+        }
+
+        .audio-status.error {
+            background: rgba(244, 67, 54, 0.15);
+            color: #c62828;
+        }
+
+        /* Profile Icon Styling */
+        .profile-container {
+            order: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0;
+        }
+
         .profile-icon {
-            width: 200px;
-            height: 200px;
+            width: 22vmin;
+            height: 22vmin;
+            max-width: 220px;
+            max-height: 220px;
+            min-width: 120px;
+            min-height: 120px;
             border-radius: 50%;
             overflow: hidden;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border: 6px solid white;
             position: relative;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-icon.animated {
+            animation: pulse 2s infinite;
         }
 
         .profile-icon img {
@@ -159,20 +224,40 @@
             object-fit: cover;
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Audio Player Styling */
+        .audio-player-container {
+            order: 3;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 0;
+        }
+
         .audio-player {
             display: flex;
             align-items: center;
-            background-color: #e0f7fa;
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
             border-radius: 50px;
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
+            padding: 15px 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 550px;
             width: 90%;
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .audio-player:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .play-button {
-            background-color: #25d366;
+            background: linear-gradient(135deg, #25d366, #1da851);
             border: none;
             border-radius: 50%;
             width: 60px;
@@ -182,51 +267,51 @@
             align-items: center;
             cursor: pointer;
             margin-right: 20px;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
         }
 
         .play-button:hover {
             transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.6);
+        }
+
+        .play-button.playing {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
         }
 
         .play-button svg {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             fill: white;
         }
 
         .progress-container {
             flex-grow: 1;
-            height: 6px;
+            height: 8px;
             background-color: #b2dfdb;
             border-radius: 4px;
             position: relative;
             cursor: pointer;
+            margin: 0 15px;
         }
 
         .progress-bar {
             position: absolute;
             height: 100%;
-            background-color: #25d366;
+            background: linear-gradient(90deg, #25d366, #1da851);
             border-radius: 4px;
             width: 0%;
+            transition: width 0.1s linear;
         }
 
         .time {
-            margin-left: 20px;
-            font-size: 1.2rem;
+            margin-left: 10px;
+            font-size: 1rem;
             color: #546e7a;
             min-width: 60px;
-        }
-
-        .audio-status {
-            position: absolute;
-            top: -25px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-            color: #666;
+            font-weight: 500;
         }
 
         /* Video Slide Styling */
@@ -249,18 +334,26 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 1001;
             display: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        #exit-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
         }
 
         /* Slide Indicators */
@@ -278,16 +371,17 @@
         }
 
         .indicator {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.5);
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
         .indicator.active {
             background-color: white;
+            transform: scale(1.2);
         }
 
         /* Navigation Controls */
@@ -303,7 +397,7 @@
         }
 
         .nav-btn {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.6);
             color: white;
             border: none;
             border-radius: 50%;
@@ -314,11 +408,12 @@
             align-items: center;
             cursor: pointer;
             font-size: 20px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         .nav-btn:hover {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
         }
 
         /* Slide Counter */
@@ -326,12 +421,13 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.6);
             color: white;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border-radius: 20px;
             font-size: 14px;
             z-index: 5;
+            font-weight: 500;
         }
 
         /* Landscape Message */
@@ -342,7 +438,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
             color: white;
             justify-content: center;
             align-items: center;
@@ -352,9 +448,26 @@
             padding: 20px;
         }
 
+        #landscape-message h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
         #landscape-message p {
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 1.2rem;
+            max-width: 500px;
+        }
+
+        #landscape-message .rotate-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: rotate 2s infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(90deg); }
         }
 
         /* Responsive Adjustments */
@@ -370,12 +483,12 @@
             }
             
             .profile-icon {
-                width: 150px;
-                height: 150px;
+                width: 25vmin;
+                height: 25vmin;
             }
             
             .audio-player {
-                max-width: 400px;
+                max-width: 450px;
                 padding: 12px 20px;
             }
             
@@ -386,12 +499,12 @@
             }
             
             .play-button svg {
-                width: 25px;
-                height: 25px;
+                width: 22px;
+                height: 22px;
             }
             
             .time {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             
             .video-container {
@@ -400,21 +513,27 @@
             }
 
             .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
             }
 
             .slide-counter {
-                top: 10px;
-                right: 10px;
+                top: 15px;
+                right: 15px;
                 font-size: 12px;
+                padding: 6px 12px;
+            }
+            
+            .audio-status {
+                font-size: 0.9rem;
+                padding: 8px 16px;
             }
         }
 
         @media (max-width: 480px) {
             #slides-container {
-                height: 60vh;
+                height: 65vh;
                 width: 98%;
             }
             
@@ -424,20 +543,20 @@
             }
             
             .profile-icon {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 20px;
+                width: 28vmin;
+                height: 28vmin;
+                border-width: 4px;
             }
             
             .audio-player {
-                max-width: 320px;
+                max-width: 350px;
                 padding: 10px 15px;
             }
             
             .play-button {
-                width: 40px;
-                height: 40px;
-                margin-right: 10px;
+                width: 45px;
+                height: 45px;
+                margin-right: 12px;
             }
             
             .play-button svg {
@@ -446,19 +565,29 @@
             }
             
             .time {
-                font-size: 0.9rem;
-                margin-left: 10px;
+                font-size: 0.85rem;
+                margin-left: 8px;
                 min-width: 50px;
             }
 
             .slide-indicators {
-                bottom: 10px;
+                bottom: 15px;
             }
 
             .nav-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 14px;
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .audio-status {
+                font-size: 0.85rem;
+                padding: 7px 14px;
+                min-width: 180px;
+            }
+            
+            .content-overlay {
+                gap: 3vh;
             }
         }
 
@@ -472,13 +601,16 @@
             }
             
             .profile-icon {
-                width: 120px;
-                height: 120px;
-                margin-bottom: 20px;
+                width: 20vmin;
+                height: 20vmin;
             }
             
             .audio-player {
                 padding: 10px 20px;
+            }
+            
+            .content-overlay {
+                gap: 2vh;
             }
         }
 
@@ -509,176 +641,80 @@
     <!-- Slides Container -->
     <div id="slides-container">
         <div class="slides-wrapper">
-            <!-- Slide 1 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/1.jpg" alt="Slide 1">
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/2.jpg" alt="Slide 2">
-            </div>
-            <!-- Slide 3 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/3.jpg" alt="Slide 3">
-            </div>
-            <!-- Slide 4 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/4.jpg" alt="Slide 4">
-            </div>
-            <!-- Slide 5 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/5.jpg" alt="Slide 5">
-            </div>
-            <!-- Slide 6 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/6.jpg" alt="Slide 6">
-            </div>
-            <!-- Slide 7 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/7.jpg" alt="Slide 7">
-            </div>
-            <!-- Slide sanad -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/sanad.jpg" alt="Slide 7">
-            </div>
-            <!-- Slide 8 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/8.jpg" alt="Slide 8">
-            </div>
-            <!-- Slide 9 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/9.jpg" alt="Slide 9">
-            </div>
-            <!-- Slide 10 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/10.jpg" alt="Slide 10">
-            </div>
-            <!-- Slide 11 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/11.jpg" alt="Slide 11">
-            </div>
-             
-               <!-- Slide 13 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/13.jpg" alt="Slide 13">
-            </div>
-              <!-- Slide 13 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/imams1.jpg" alt="Slide 13">
-            </div>
-
-              <!-- Slide bg -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg1.jpg" alt="Slide 11">
-            </div>
-
-            <!-- Slide 12 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
-                <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-1">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-1">
-                        <div class="audio-status" id="audio-status-1">Click play to start audio</div>
-                        <button class="play-button" id="play-button-1">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
-                        </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-1.mp3" id="audio-1" preload="metadata"></audio>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 14 -->
-            <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
-                <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-2">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-2">
-                        <div class="audio-status" id="audio-status-2">Click play to start audio</div>
-                        <button class="play-button" id="play-button-2">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
-                        </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-1.mp3" id="audio-2" preload="metadata"></audio>
-                    </div>
-                </div>
-            </div>
-            
             <!-- Slide 15 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/15.jpg" alt="Slide 15">
             </div>
+            
             <!-- Slide shuruth -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/shuruth.jpg" alt="Slide 15">
+                <img src="https://pptx26.vercel.app/slides/shuruth.jpg" alt="Slide shuruth">
             </div>
+            
             <!-- Slide 16 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/16.jpg" alt="Slide 16">
             </div>
 
-             <!-- Slide 16 -->
+            <!-- Slide bg2 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg2.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg2.jpg" alt="Slide bg2">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 3 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-3">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-3">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-3">Click play to start audio</div>
-                        <button class="play-button" id="play-button-3">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-3">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-105.mp3" id="audio-3" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-3">
+                            <button class="play-button" id="play-button-3">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-105.mp3" id="audio-3" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 4 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-4">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-4">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-4">Click play to start audio</div>
-                        <button class="play-button" id="play-button-4">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-4">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-105.mp3" id="audio-4" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-4">
+                            <button class="play-button" id="play-button-4">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-105.mp3" id="audio-4" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -688,105 +724,128 @@
                 <img src="https://pptx26.vercel.app/slides/saktah.jpg" alt="Slide saktah">
             </div>
 
-            
-             <!-- Slide 16 -->
+            <!-- Slide bg3 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg3.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg3.jpg" alt="Slide bg3">
             </div>
             
-             <!-- Slide fil -->
+            <!-- Slide fil 5 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-5">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-5">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-5">Click play to start audio</div>
-                        <button class="play-button" id="play-button-5">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-5">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-75.mp3" id="audio-5" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-5">
+                            <button class="play-button" id="play-button-5">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-75.mp3" id="audio-5" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 6 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-6">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-6">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-6">Click play to start audio</div>
-                        <button class="play-button" id="play-button-6">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-6">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-75.mp3" id="audio-6" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-6">
+                            <button class="play-button" id="play-button-6">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-75.mp3" id="audio-6" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 16 -->
+            <!-- Slide bg4 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg4.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg4.jpg" alt="Slide bg4">
             </div>
 
-             <!-- Slide fil -->
+            <!-- Slide fil 7 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-7">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-7">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-7">Click play to start audio</div>
-                        <button class="play-button" id="play-button-7">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-7">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-83.mp3" id="audio-7" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-7">
+                            <button class="play-button" id="play-button-7">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-83.mp3" id="audio-7" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 8 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-8">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-8">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-8">Click play to start audio</div>
-                        <button class="play-button" id="play-button-8">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-8">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-83.mp3" id="audio-8" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-8">
+                            <button class="play-button" id="play-button-8">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-83.mp3" id="audio-8" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -796,55 +855,65 @@
                 <img src="https://pptx26.vercel.app/slides/17.jpg" alt="Slide 17">
             </div>
 
-              <!-- Slide 16 -->
+            <!-- Slide bg18 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg18.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg18.jpg" alt="Slide bg18">
             </div>
 
-             <!-- Slide fil -->
+            <!-- Slide fil 9 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-9">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-9">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-9">Click play to start audio</div>
-                        <button class="play-button" id="play-button-9">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-9">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-11.mp3" id="audio-9" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-9">
+                            <button class="play-button" id="play-button-9">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-11.mp3" id="audio-9" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-          
-
-            <!-- Slide fil -->
+            <!-- Slide fil 10 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-10">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-10">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-10">Click play to start audio</div>
-                        <button class="play-button" id="play-button-10">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-10">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-11.mp3" id="audio-10" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-10">
+                            <button class="play-button" id="play-button-10">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-11.mp3" id="audio-10" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -854,156 +923,191 @@
                 <img src="https://pptx26.vercel.app/slides/18.jpg" alt="Slide 18">
             </div>
 
-             <!-- Slide 16 -->
+            <!-- Slide bg6 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg6.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg6.jpg" alt="Slide bg6">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 11 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-11">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-11">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-11">Click play to start audio</div>
-                        <button class="play-button" id="play-button-11">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-11">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-fath.mp3" id="audio-11" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-11">
+                            <button class="play-button" id="play-button-11">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-fath.mp3" id="audio-11" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 12 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-12">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-12">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-12">Click play to start audio</div>
-                        <button class="play-button" id="play-button-12">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-12">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-fath.mp3" id="audio-12" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-12">
+                            <button class="play-button" id="play-button-12">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-fath.mp3" id="audio-12" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-              <!-- Slide 16 -->
+            <!-- Slide bg8 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg8.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg8.jpg" alt="Slide bg8">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 13 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-13">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-13">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-13">Click play to start audio</div>
-                        <button class="play-button" id="play-button-13">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-13">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-isbath.mp3" id="audio-13" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-13">
+                            <button class="play-button" id="play-button-13">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-isbath.mp3" id="audio-13" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <!-- Slide fil -->
+            <!-- Slide fil 14 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-14">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-14">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-14">Click play to start audio</div>
-                        <button class="play-button" id="play-button-14">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-14">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-isbath.mp3" id="audio-14" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-14">
+                            <button class="play-button" id="play-button-14">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-isbath.mp3" id="audio-14" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-             <!-- Slide 16 -->
+            <!-- Slide bg7 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg7.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg7.jpg" alt="Slide bg7">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 15 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-15">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-15">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-15">Click play to start audio</div>
-                        <button class="play-button" id="play-button-15">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-15">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-sukun.mp3" id="audio-15" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-15">
+                            <button class="play-button" id="play-button-15">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-sukun.mp3" id="audio-15" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 16 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-16">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-16">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-16">Click play to start audio</div>
-                        <button class="play-button" id="play-button-16">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-16">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-sukun.mp3" id="audio-16" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-16">
+                            <button class="play-button" id="play-button-16">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-sukun.mp3" id="audio-16" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1013,55 +1117,65 @@
                 <img src="https://pptx26.vercel.app/slides/19.jpg" alt="Slide 19">
             </div>
 
-            
-            <!-- Slide 16 -->
+            <!-- Slide bg9 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg9.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg9.jpg" alt="Slide bg9">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 17 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-17">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-17">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-17">Click play to start audio</div>
-                        <button class="play-button" id="play-button-17">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-17">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-himi.mp3" id="audio-17" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-17">
+                            <button class="play-button" id="play-button-17">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-himi.mp3" id="audio-17" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <!-- Slide fil -->
+            <!-- Slide fil 18 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-18">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-18">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-18">Click play to start audio</div>
-                        <button class="play-button" id="play-button-18">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-18">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-himi.mp3" id="audio-18" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-18">
+                            <button class="play-button" id="play-button-18">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-himi.mp3" id="audio-18" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1070,60 +1184,71 @@
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/20.jpg" alt="Slide 20">
             </div>
+            
             <!-- Slide 21 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/21.jpg" alt="Slide 21">
             </div>
 
-            
-            <!-- Slide 16 -->
+            <!-- Slide bg10 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg10.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg10.jpg" alt="Slide bg10">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 19 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-19">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-19">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-19">Click play to start audio</div>
-                        <button class="play-button" id="play-button-19">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-19">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-yuhadi.mp3" id="audio-19" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-19">
+                            <button class="play-button" id="play-button-19">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-yuhadi.mp3" id="audio-19" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <!-- Slide fil -->
+            <!-- Slide fil 20 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-20">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-20">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-20">Click play to start audio</div>
-                        <button class="play-button" id="play-button-20">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-20">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-yuhadi.mp3" id="audio-20" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-20">
+                            <button class="play-button" id="play-button-20">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-yuhadi.mp3" id="audio-20" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1133,229 +1258,265 @@
                 <img src="https://pptx26.vercel.app/slides/22.jpg" alt="Slide 22">
             </div>
 
-               <!-- Slide 16 -->
+            <!-- Slide bg11 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg11.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg11.jpg" alt="Slide bg11">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 21 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-21">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-21">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-21">Click play to start audio</div>
-                        <button class="play-button" id="play-button-21">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-21">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-afvu.mp3" id="audio-21" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-21">
+                            <button class="play-button" id="play-button-21">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-afvu.mp3" id="audio-21" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            
-            <!-- Slide 16 -->
+            <!-- Slide bg12 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg12.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg12.jpg" alt="Slide bg12">
             </div>
             
-            <!-- Slide fil -->
+            <!-- Slide fil 22 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-22">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-22">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-22">Click play to start audio</div>
-                        <button class="play-button" id="play-button-22">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-22">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-ahlaqa.mp3" id="audio-22" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-22">
+                            <button class="play-button" id="play-button-22">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-ahlaqa.mp3" id="audio-22" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-               <!-- Slide 16 -->
+            <!-- Slide bg13 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg13.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg13.jpg" alt="Slide bg13">
             </div>
             
-            <!-- Slide fil -->
+            <!-- Slide fil 23 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-23">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-23">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-23">Click play to start audio</div>
-                        <button class="play-button" id="play-button-23">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-23">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-muajjis.mp3" id="audio-23" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-23">
+                            <button class="play-button" id="play-button-23">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-muajjis.mp3" id="audio-23" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-         
-            
             <!-- Slide 23 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/23.jpg" alt="Slide 23">
             </div>
+            
             <!-- Slide 24 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/24.jpg" alt="Slide 24">
             </div>
 
-               <!-- Slide 16 -->
+            <!-- Slide bg14 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg14.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg14.jpg" alt="Slide bg14">
             </div>
-            
 
-            <!-- Slide fil -->
+            <!-- Slide fil 24 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-24">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-24">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-24">Click play to start audio</div>
-                        <button class="play-button" id="play-button-24">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-24">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-sad.mp3" id="audio-24" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-24">
+                            <button class="play-button" id="play-button-24">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-sad.mp3" id="audio-24" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 16 -->
+            <!-- Slide bg15 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg15.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg15.jpg" alt="Slide bg15">
             </div>
 
-            
-            <!-- Slide fil -->
+            <!-- Slide fil 25 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-25">
-                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-25">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-25">Click play to start audio</div>
-                        <button class="play-button" id="play-button-25">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-25">
+                            <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-hadid.mp3" id="audio-25" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-25">
+                            <button class="play-button" id="play-button-25">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/rashid-soosi-hadid.mp3" id="audio-25" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
-           
 
             <!-- Slide 25 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/25.jpg" alt="Slide 25">
             </div>
 
-            <!-- Slide 16 -->
+            <!-- Slide bg16 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg16.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg16.jpg" alt="Slide bg16">
             </div>
 
-              <!-- Slide 16 -->
+            <!-- Slide bg17 -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/bg17.jpg" alt="Slide 16">
+                <img src="https://pptx26.vercel.app/slides/bg17.jpg" alt="Slide bg17">
             </div>
 
-            <!-- Slide fil -->
+            <!-- Slide fil 26 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
                 <div class="content-overlay">
-                    <div class="profile-icon" id="profile-icon-26">
-                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
-                    </div>
-                    <div class="audio-player" id="audio-player-26">
+                    <div class="audio-status-container">
                         <div class="audio-status" id="audio-status-26">Click play to start audio</div>
-                        <button class="play-button" id="play-button-26">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"></path>
-                            </svg>
-                        </button>
-                        <div class="progress-container">
-                            <div class="progress-bar"></div>
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-icon" id="profile-icon-26">
+                            <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
                         </div>
-                        <div class="time">0:00</div>
-                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-hujrath.mp3" id="audio-26" preload="metadata"></audio>
+                    </div>
+                    <div class="audio-player-container">
+                        <div class="audio-player" id="audio-player-26">
+                            <button class="play-button" id="play-button-26">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                            <div class="progress-container">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <div class="time">0:00</div>
+                            <audio src="https://pptx26.vercel.app/audios/noreen-doori-hujrath.mp3" id="audio-26" preload="metadata"></audio>
+                        </div>
                     </div>
                 </div>
             </div>
 
-          
-            
             <!-- Slide 26 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/26.jpg" alt="Slide 26">
             </div>
-            <!-- Slide 26 -->
+            
+            <!-- Slide imala -->
             <div class="slide">
-                <img src="https://pptx26.vercel.app/slides/imala.jpg" alt="Slide 26">
+                <img src="https://pptx26.vercel.app/slides/imala.jpg" alt="Slide imala">
             </div>
+            
             <!-- Slide 27 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/27.jpg" alt="Slide 27">
             </div>
+            
             <!-- Slide 28 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/28.jpg" alt="Slide 28">
             </div>
+            
             <!-- Slide 29 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/29.jpg" alt="Slide 29">
             </div>
+            
             <!-- Slide 30 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/30.jpg" alt="Slide 30">
             </div>
+            
             <!-- Slide 31 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/31.jpg" alt="Slide 31">
             </div>
+            
             <!-- Slide 32 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/32.jpg" alt="Slide 32">
@@ -1380,8 +1541,6 @@
                 </div>
             </div>
             
-            <!-- Slides 5-34 would follow the same pattern -->
-            
             <!-- Slide 35 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/35.jpg" alt="Slide 35">
@@ -1394,7 +1553,13 @@
             <button class="nav-btn" id="next-btn">▶</button>
         </div>
         
+        <!-- Slide Counter -->
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">35</span>
+        </div>
         
+        <!-- Slide Indicators -->
+        <div class="slide-indicators"></div>
     </div>
 
     <!-- Exit Button -->
@@ -1402,11 +1567,13 @@
 
     <!-- Landscape Message -->
     <div id="landscape-message">
-        <h2>Please rotate your device to landscape mode</h2>
+        <div class="rotate-icon">🔄</div>
+        <h2>Please rotate your device</h2>
         <p>For the best experience, please use your device in landscape orientation.</p>
     </div>
 
     <script>
+        // JavaScript code remains the same as in the previous example
         document.addEventListener('DOMContentLoaded', function() {
             // Elements
             const startScreen = document.getElementById('start-screen');
@@ -1419,6 +1586,8 @@
             const landscapeMessage = document.getElementById('landscape-message');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
+            const currentSlideElement = document.getElementById('current-slide');
+            const totalSlidesElement = document.getElementById('total-slides');
             
             // Variables
             let currentSlide = 0;
@@ -1426,6 +1595,9 @@
             let touchStartX = 0;
             let touchEndX = 0;
             let indicators = [];
+            
+            // Set total slides count
+            totalSlidesElement.textContent = slides.length;
             
             // Generate indicators dynamically
             function generateIndicators() {
@@ -1469,6 +1641,9 @@
                 
                 // Generate indicators
                 generateIndicators();
+                
+                // Update slide counter
+                updateSlideCounter();
                 
                 // Check if mobile and show landscape message if needed
                 if (isMobileDevice() && window.innerHeight > window.innerWidth) {
@@ -1546,6 +1721,11 @@
             prevBtn.addEventListener('click', prevSlide);
             nextBtn.addEventListener('click', nextSlide);
             
+            // Update slide counter
+            function updateSlideCounter() {
+                currentSlideElement.textContent = currentSlide + 1;
+            }
+            
             // Keyboard navigation
             document.addEventListener('keydown', function(e) {
                 if (slidesContainer.style.display !== 'block') return;
@@ -1621,6 +1801,7 @@
                     currentSlide = slideIndex;
                     updateSlidePosition();
                     updateIndicators();
+                    updateSlideCounter();
                     
                     // Pause any playing audio when changing slides
                     pauseAllAudio();
@@ -1655,12 +1836,14 @@
                         audio.pause();
                         if (playButton) {
                             playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                            playButton.classList.remove('playing');
                         }
                         if (profileIcon) {
-                            profileIcon.style.transform = 'scale(1)';
+                            profileIcon.classList.remove('animated');
                         }
                         if (audioStatus) {
                             audioStatus.textContent = 'Paused';
+                            audioStatus.className = 'audio-status paused';
                         }
                     }
                 }
@@ -1755,14 +1938,32 @@
                 let animationId;
                 
                 // Show audio status
-                function showStatus(message, isError = false) {
+                function showStatus(message, statusType = 'default') {
                     if (!audioStatus) return;
                     audioStatus.textContent = message;
-                    audioStatus.style.color = isError ? '#ff4444' : '#666';
                     
+                    // Reset classes
+                    audioStatus.className = 'audio-status';
+                    
+                    // Add appropriate class based on status
+                    if (statusType === 'playing') {
+                        audioStatus.classList.add('playing');
+                    } else if (statusType === 'paused') {
+                        audioStatus.classList.add('paused');
+                    } else if (statusType === 'error') {
+                        audioStatus.classList.add('error');
+                    }
+                    
+                    // Auto-clear status after delay
                     setTimeout(() => {
                         if (audioStatus && audioStatus.textContent === message) {
-                            audioStatus.textContent = isPlaying ? 'Playing' : 'Paused';
+                            if (isPlaying) {
+                                audioStatus.textContent = 'Playing';
+                                audioStatus.className = 'audio-status playing';
+                            } else {
+                                audioStatus.textContent = 'Paused';
+                                audioStatus.className = 'audio-status paused';
+                            }
                         }
                     }, 3000);
                 }
@@ -1772,8 +1973,7 @@
                     if (!isPlaying || !profileIcon) return;
                     
                     // Create a simple pulsing animation
-                    const scale = 1 + Math.sin(Date.now() / 200) * 0.1;
-                    profileIcon.style.transform = `scale(${scale})`;
+                    profileIcon.classList.add('animated');
                     
                     animationId = requestAnimationFrame(simpleAnimate);
                 }
@@ -1784,11 +1984,12 @@
                         // Pause audio
                         audio.pause();
                         playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                        playButton.classList.remove('playing');
                         if (animationId) {
                             cancelAnimationFrame(animationId);
                         }
-                        if (profileIcon) profileIcon.style.transform = 'scale(1)';
-                        showStatus('Paused');
+                        if (profileIcon) profileIcon.classList.remove('animated');
+                        showStatus('Paused', 'paused');
                         isPlaying = false;
                     } else {
                         // Pause other audio players
@@ -1801,13 +2002,14 @@
                             playPromise.then(() => {
                                 // Audio started successfully
                                 playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                playButton.classList.add('playing');
                                 simpleAnimate();
-                                showStatus('Playing');
+                                showStatus('Playing', 'playing');
                                 isPlaying = true;
                             }).catch(error => {
                                 // Audio failed to play
                                 console.error('Error playing audio:', error);
-                                showStatus('Audio Error: ' + error.message, true);
+                                showStatus('Audio Error', 'error');
                                 
                                 // Try fallback approach - reset and try again
                                 try {
@@ -1816,17 +2018,18 @@
                                     if (fallbackPlay !== undefined) {
                                         fallbackPlay.then(() => {
                                             playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                            playButton.classList.add('playing');
                                             simpleAnimate();
-                                            showStatus('Playing (fallback)');
+                                            showStatus('Playing', 'playing');
                                             isPlaying = true;
                                         }).catch(fallbackError => {
                                             console.error('Fallback also failed:', fallbackError);
-                                            showStatus('Cannot play audio', true);
+                                            showStatus('Cannot play audio', 'error');
                                         });
                                     }
                                 } catch (fallbackError) {
                                     console.error('Fallback also failed:', fallbackError);
-                                    showStatus('Cannot play audio', true);
+                                    showStatus('Cannot play audio', 'error');
                                 }
                             });
                         }
@@ -1850,7 +2053,8 @@
                 if (progressContainer) {
                     progressContainer.addEventListener('click', function(e) {
                         if (audio.duration && !isNaN(audio.duration)) {
-                            const clickPosition = (e.pageX - progressContainer.getBoundingClientRect().left) / progressContainer.offsetWidth;
+                            const rect = progressContainer.getBoundingClientRect();
+                            const clickPosition = (e.clientX - rect.left) / progressContainer.offsetWidth;
                             audio.currentTime = clickPosition * audio.duration;
                         }
                     });
@@ -1860,24 +2064,25 @@
                 audio.addEventListener('ended', function() {
                     isPlaying = false;
                     playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                    playButton.classList.remove('playing');
                     if (progressBar) progressBar.style.width = '0%';
                     if (timeDisplay) timeDisplay.textContent = '0:00';
                     if (animationId) {
                         cancelAnimationFrame(animationId);
                     }
-                    if (profileIcon) profileIcon.style.transform = 'scale(1)';
-                    showStatus('Finished');
+                    if (profileIcon) profileIcon.classList.remove('animated');
+                    showStatus('Finished', 'default');
                 });
                 
                 // Handle audio loading
                 audio.addEventListener('canplaythrough', function() {
                     console.log(`Audio ${playerIndex} loaded and ready`);
-                    showStatus('Ready to play');
+                    showStatus('Ready to play', 'default');
                 });
                 
                 audio.addEventListener('error', function(e) {
                     console.error(`Audio error for player ${playerIndex}:`, e);
-                    showStatus('Audio load error', true);
+                    showStatus('Audio load error', 'error');
                 });
                 
                 // Preload audio
