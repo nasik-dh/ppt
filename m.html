@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Slide Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: white;
+            height: 100%;
+            width: 100%;
+            position: fixed; /* Prevent scrolling */
+        }
+
+        /* Start Screen */
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #start-button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background-color: #4a6bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #start-button:hover {
+            background-color: #3a5bef;
+        }
+
+        /* Slides Container */
+        #slides-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        .slides-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            position: relative;
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Content overlay for slides with background images */
+        .content-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* Audio Player Styling */
+        .profile-icon {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 6px solid white;
+            position: relative;
+            transition: transform 0.1s ease-out;
+        }
+
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .audio-player {
+            display: flex;
+            align-items: center;
+            background-color: #e0f7fa;
+            border-radius: 50px;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+        }
+
+        .play-button {
+            background-color: #25d366;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-right: 30px;
+            transition: transform 0.2s;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+        }
+
+        .play-button svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 8px;
+            background-color: #b2dfdb;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            background-color: #25d366;
+            border-radius: 4px;
+            width: 0%;
+        }
+
+        .time {
+            margin-left: 30px;
+            font-size: 1.6rem;
+            color: #546e7a;
+            min-width: 80px;
+        }
+
+        .audio-status {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Video Slide Styling */
+        .video-container {
+            width: 70%;
+            height: 70%;
+            position: relative;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Exit Fullscreen Button */
+        #exit-fullscreen {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            display: none;
+        }
+
+        /* Mobile Landscape Message */
+        #landscape-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 2000;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #landscape-message p {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        /* Slide Indicators */
+        .slide-indicators {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 5;
+            gap: 8px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s;
+        }
+
+        .indicator.active {
+            background-color: white;
+        }
+
+        /* Mobile Navigation Controls */
+        #mobile-controls {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 5;
+            display: none;
+        }
+
+        .mobile-nav-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .profile-icon {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .audio-player {
+                max-width: 500px;
+                padding: 15px 30px;
+            }
+            
+            .play-button {
+                width: 60px;
+                height: 60px;
+                margin-right: 20px;
+            }
+            
+            .play-button svg {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .time {
+                font-size: 1.2rem;
+            }
+            
+            .video-container {
+                width: 90%;
+                height: 60%;
+            }
+
+            /* Show mobile controls on mobile */
+            #mobile-controls {
+                display: flex;
+            }
+
+            /* Hide indicators on mobile when not in use */
+            .slide-indicators {
+                opacity: 0.5;
+                transition: opacity 0.3s;
+            }
+
+            .slide-indicators:hover,
+            .slide-indicators:active {
+                opacity: 1;
+            }
+        }
+
+        @media (max-height: 500px) and (orientation: landscape) {
+            .profile-icon {
+                width: 140px;
+                height: 140px;
+                margin-bottom: 30px;
+            }
+            
+            .audio-player {
+                padding: 15px 25px;
+            }
+        }
+
+        /* Hide address bar on mobile */
+        @media (max-width: 768px) and (orientation: portrait) {
+            html, body {
+                height: 100vh;
+                height: -webkit-fill-available;
+            }
+
+            #slides-container {
+                height: 100vh;
+                height: -webkit-fill-available;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Start Screen -->
+    <div id="start-screen">
+        <button id="start-button">Start Presentation</button>
+    </div>
+
+    <!-- Slides Container -->
+    <div id="slides-container">
+        <div class="slides-wrapper">
+            <!-- Slides content here - shortened for brevity -->
+            <!-- Slide 1 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/1.jpg" alt="Slide 1">
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/2.jpg" alt="Slide 2">
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/3.jpg" alt="Slide 3">
+            </div>
+            <!-- Slide 4 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/4.jpg" alt="Slide 4">
+            </div>
+            <!-- Slide 5 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/5.jpg" alt="Slide 5">
+            </div>
+            <!-- Slide 6 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/6.jpg" alt="Slide 6">
+            </div>
+            <!-- Slide 7 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/7.jpg" alt="Slide 7">
+            </div>
+            <!-- Slide sanad -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/sanad.jpg" alt="Slide 7">
+            </div>
+            <!-- Slide 8 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/8.jpg" alt="Slide 8">
+            </div>
+            <!-- Slide 9 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/9.jpg" alt="Slide 9">
+            </div>
+            <!-- Slide 10 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/10.jpg" alt="Slide 10">
+            </div>
+            <!-- Slide 11 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/11.jpg" alt="Slide 11">
+            </div>
+             
+               <!-- Slide 13 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/13.jpg" alt="Slide 13">
+            </div>
+              <!-- Slide 13 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/imams1.jpg" alt="Slide 13">
+            </div>
+
+              <!-- Slide bg -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg1.jpg" alt="Slide 11">
+            </div>
+
+            <!-- Slide 12 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-1">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-1">
+                        <div class="audio-status" id="audio-status-1">Click play to start audio</div>
+                        <button class="play-button" id="play-button-1">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-1.mp3" id="audio-1" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-2">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-2">
+                        <div class="audio-status" id="audio-status-2">Click play to start audio</div>
+                        <button class="play-button" id="play-button-2">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-1.mp3" id="audio-2" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 15 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/15.jpg" alt="Slide 15">
+            </div>
+            <!-- Slide shuruth -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/shuruth.jpg" alt="Slide 15">
+            </div>
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/16.jpg" alt="Slide 16">
+            </div>
+
+             <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg2.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-3">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-3">
+                        <div class="audio-status" id="audio-status-3">Click play to start audio</div>
+                        <button class="play-button" id="play-button-3">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-105.mp3" id="audio-3" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-4">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-4">
+                        <div class="audio-status" id="audio-status-4">Click play to start audio</div>
+                        <button class="play-button" id="play-button-4">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-105.mp3" id="audio-4" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide saktah -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/saktah.jpg" alt="Slide saktah">
+            </div>
+
+            
+             <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg3.jpg" alt="Slide 16">
+            </div>
+            
+             <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-5">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-5">
+                        <div class="audio-status" id="audio-status-5">Click play to start audio</div>
+                        <button class="play-button" id="play-button-5">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-75.mp3" id="audio-5" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-6">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-6">
+                        <div class="audio-status" id="audio-status-6">Click play to start audio</div>
+                        <button class="play-button" id="play-button-6">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-75.mp3" id="audio-6" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg4.jpg" alt="Slide 16">
+            </div>
+
+             <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-7">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-7">
+                        <div class="audio-status" id="audio-status-7">Click play to start audio</div>
+                        <button class="play-button" id="play-button-7">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-83.mp3" id="audio-7" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-8">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-8">
+                        <div class="audio-status" id="audio-status-8">Click play to start audio</div>
+                        <button class="play-button" id="play-button-8">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-83.mp3" id="audio-8" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 17 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/17.jpg" alt="Slide 17">
+            </div>
+
+              <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg18.jpg" alt="Slide 16">
+            </div>
+
+             <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-9">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-9">
+                        <div class="audio-status" id="audio-status-9">Click play to start audio</div>
+                        <button class="play-button" id="play-button-9">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-11.mp3" id="audio-9" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+          
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-10">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-10">
+                        <div class="audio-status" id="audio-status-10">Click play to start audio</div>
+                        <button class="play-button" id="play-button-10">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-11.mp3" id="audio-10" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 18 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/18.jpg" alt="Slide 18">
+            </div>
+
+             <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg6.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-11">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-11">
+                        <div class="audio-status" id="audio-status-11">Click play to start audio</div>
+                        <button class="play-button" id="play-button-11">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-fath.mp3" id="audio-11" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-12">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-12">
+                        <div class="audio-status" id="audio-status-12">Click play to start audio</div>
+                        <button class="play-button" id="play-button-12">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-fath.mp3" id="audio-12" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+              <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg8.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-13">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-13">
+                        <div class="audio-status" id="audio-status-13">Click play to start audio</div>
+                        <button class="play-button" id="play-button-13">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-isbath.mp3" id="audio-13" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-14">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-14">
+                        <div class="audio-status" id="audio-status-14">Click play to start audio</div>
+                        <button class="play-button" id="play-button-14">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-isbath.mp3" id="audio-14" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg7.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-15">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-15">
+                        <div class="audio-status" id="audio-status-15">Click play to start audio</div>
+                        <button class="play-button" id="play-button-15">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-sukun.mp3" id="audio-15" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-16">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-16">
+                        <div class="audio-status" id="audio-status-16">Click play to start audio</div>
+                        <button class="play-button" id="play-button-16">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-sukun.mp3" id="audio-16" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 19 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/19.jpg" alt="Slide 19">
+            </div>
+
+            
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg9.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-17">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-17">
+                        <div class="audio-status" id="audio-status-17">Click play to start audio</div>
+                        <button class="play-button" id="play-button-17">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-himi.mp3" id="audio-17" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-18">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-18">
+                        <div class="audio-status" id="audio-status-18">Click play to start audio</div>
+                        <button class="play-button" id="play-button-18">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-himi.mp3" id="audio-18" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 20 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/20.jpg" alt="Slide 20">
+            </div>
+            <!-- Slide 21 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/21.jpg" alt="Slide 21">
+            </div>
+
+            
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg10.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-19">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-19">
+                        <div class="audio-status" id="audio-status-19">Click play to start audio</div>
+                        <button class="play-button" id="play-button-19">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-yuhadi.mp3" id="audio-19" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-20">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-20">
+                        <div class="audio-status" id="audio-status-20">Click play to start audio</div>
+                        <button class="play-button" id="play-button-20">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-yuhadi.mp3" id="audio-20" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 22 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/22.jpg" alt="Slide 22">
+            </div>
+
+               <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg11.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-21">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-21">
+                        <div class="audio-status" id="audio-status-21">Click play to start audio</div>
+                        <button class="play-button" id="play-button-21">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-afvu.mp3" id="audio-21" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg12.jpg" alt="Slide 16">
+            </div>
+            
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-22">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-22">
+                        <div class="audio-status" id="audio-status-22">Click play to start audio</div>
+                        <button class="play-button" id="play-button-22">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-ahlaqa.mp3" id="audio-22" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+               <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg13.jpg" alt="Slide 16">
+            </div>
+            
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-23">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-23">
+                        <div class="audio-status" id="audio-status-23">Click play to start audio</div>
+                        <button class="play-button" id="play-button-23">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-muajjis.mp3" id="audio-23" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+         
+            
+            <!-- Slide 23 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/23.jpg" alt="Slide 23">
+            </div>
+            <!-- Slide 24 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/24.jpg" alt="Slide 24">
+            </div>
+
+               <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg14.jpg" alt="Slide 16">
+            </div>
+            
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-24">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-24">
+                        <div class="audio-status" id="audio-status-24">Click play to start audio</div>
+                        <button class="play-button" id="play-button-24">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-sad.mp3" id="audio-24" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg15.jpg" alt="Slide 16">
+            </div>
+
+            
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/14a.jpg" alt="Slide 14 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-25">
+                        <img src="https://pptx26.vercel.app/pro/rashid1.png" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-25">
+                        <div class="audio-status" id="audio-status-25">Click play to start audio</div>
+                        <button class="play-button" id="play-button-25">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/rashid-soosi-hadid.mp3" id="audio-25" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+           
+
+            <!-- Slide 25 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/25.jpg" alt="Slide 25">
+            </div>
+
+            <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg16.jpg" alt="Slide 16">
+            </div>
+
+              <!-- Slide 16 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/bg17.jpg" alt="Slide 16">
+            </div>
+
+            <!-- Slide fil -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/12a.jpg" alt="Slide 12 Background">
+                <div class="content-overlay">
+                    <div class="profile-icon" id="profile-icon-26">
+                        <img src="https://pptx26.vercel.app/pro/noreen.jpeg" alt="Profile">
+                    </div>
+                    <div class="audio-player" id="audio-player-26">
+                        <div class="audio-status" id="audio-status-26">Click play to start audio</div>
+                        <button class="play-button" id="play-button-26">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                        </div>
+                        <div class="time">0:00</div>
+                        <audio src="https://pptx26.vercel.app/audios/noreen-doori-hujrath.mp3" id="audio-26" preload="metadata"></audio>
+                    </div>
+                </div>
+            </div>
+
+          
+            
+            <!-- Slide 26 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/26.jpg" alt="Slide 26">
+            </div>
+            <!-- Slide 26 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/imala.jpg" alt="Slide 26">
+            </div>
+            <!-- Slide 27 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/27.jpg" alt="Slide 27">
+            </div>
+            <!-- Slide 28 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/28.jpg" alt="Slide 28">
+            </div>
+            <!-- Slide 29 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/29.jpg" alt="Slide 29">
+            </div>
+            <!-- Slide 30 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/30.jpg" alt="Slide 30">
+            </div>
+            <!-- Slide 31 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/31.jpg" alt="Slide 31">
+            </div>
+            <!-- Slide 32 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/32.jpg" alt="Slide 32">
+            </div>
+
+            <!-- Slide 33 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/33.jpg" alt="Slide 33">
+            </div>
+
+            <!-- Slide 34 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/34.jpg" alt="Slide 34 Background">
+                <div class="content-overlay">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/MNPxY-QYci0" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 35 -->
+            <div class="slide">
+                <img src="https://pptx26.vercel.app/slides/35.jpg" alt="Slide 35">
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Controls -->
+        <div id="mobile-controls">
+            <button class="mobile-nav-btn" id="prev-btn">◀</button>
+            <button class="mobile-nav-btn" id="next-btn">▶</button>
+        </div>
+        
+        <!-- Slide Indicators -->
+        <div class="slide-indicators">
+            <!-- Indicators will be generated dynamically -->
+        </div>
+    </div>
+
+    <!-- Exit Fullscreen Button -->
+    <button id="exit-fullscreen">X</button>
+
+    <!-- Mobile Landscape Message -->
+    <div id="landscape-message">
+        <h2>Please rotate your device to landscape mode</h2>
+        <p>For the best experience, please use your device in landscape orientation.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const startScreen = document.getElementById('start-screen');
+            const startButton = document.getElementById('start-button');
+            const slidesContainer = document.getElementById('slides-container');
+            const slidesWrapper = document.querySelector('.slides-wrapper');
+            const slides = document.querySelectorAll('.slide');
+            const indicatorsContainer = document.querySelector('.slide-indicators');
+            const exitButton = document.getElementById('exit-fullscreen');
+            const landscapeMessage = document.getElementById('landscape-message');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            // Variables
+            let currentSlide = 0;
+            let isFullscreen = false;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let indicators = [];
+            
+            // Generate indicators dynamically
+            function generateIndicators() {
+                indicatorsContainer.innerHTML = '';
+                for (let i = 0; i < slides.length; i++) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'indicator';
+                    if (i === currentSlide) {
+                        indicator.classList.add('active');
+                    }
+                    indicator.addEventListener('click', () => {
+                        goToSlide(i);
+                    });
+                    indicatorsContainer.appendChild(indicator);
+                    indicators.push(indicator);
+                }
+            }
+            
+            // Start button click event
+            startButton.addEventListener('click', function() {
+                startScreen.style.display = 'none';
+                slidesContainer.style.display = 'block';
+                
+                // Generate indicators
+                generateIndicators();
+                
+                // Request fullscreen
+                requestFullscreen();
+                
+                // Check if mobile and show landscape message if needed
+                if (isMobileDevice() && window.innerHeight > window.innerWidth) {
+                    landscapeMessage.style.display = 'flex';
+                }
+                
+                // Force resize to handle mobile viewport issues
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                }, 100);
+            });
+            
+            // Exit fullscreen button
+            exitButton.addEventListener('click', exitFullscreen);
+            
+            // Mobile navigation buttons
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (!isFullscreen) return;
+                
+                switch(e.key) {
+                    case 'ArrowRight':
+                    case ' ':
+                    case 'PageDown':
+                        nextSlide();
+                        break;
+                    case 'ArrowLeft':
+                    case 'PageUp':
+                        prevSlide();
+                        break;
+                    case 'Escape':
+                        exitFullscreen();
+                        break;
+                    case 'Home':
+                        goToSlide(0);
+                        break;
+                    case 'End':
+                        goToSlide(slides.length - 1);
+                        break;
+                }
+            });
+            
+            // Touch events for mobile swipe
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            // Double tap to exit fullscreen on mobile
+            let lastTap = 0;
+            document.addEventListener('touchend', function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                
+                if (tapLength < 500 && tapLength > 0) {
+                    // Double tap detected
+                    exitFullscreen();
+                }
+                lastTap = currentTime;
+            });
+            
+            // Handle swipe gesture
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left - next slide
+                    nextSlide();
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right - previous slide
+                    prevSlide();
+                }
+            }
+            
+            // Next slide
+            function nextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    goToSlide(currentSlide + 1);
+                }
+            }
+            
+            // Previous slide
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                }
+            }
+            
+            // Go to specific slide
+            function goToSlide(slideIndex) {
+                if (slideIndex >= 0 && slideIndex < slides.length) {
+                    currentSlide = slideIndex;
+                    updateSlidePosition();
+                    updateIndicators();
+                }
+            }
+            
+            // Update slide position
+            function updateSlidePosition() {
+                slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+            
+            // Update indicators
+            function updateIndicators() {
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Request fullscreen with better mobile support
+            function requestFullscreen() {
+                const element = document.documentElement;
+                
+                // Try different fullscreen methods
+                const fullscreenMethods = [
+                    () => element.requestFullscreen(),
+                    () => element.webkitRequestFullscreen(),
+                    () => element.mozRequestFullScreen(),
+                    () => element.msRequestFullscreen(),
+                    // Mobile-specific fullscreen approaches
+                    () => {
+                        // For iOS, we need to use a different approach
+                        if (isIOS()) {
+                            // Try to maximize the viewport
+                            document.body.style.height = '100vh';
+                            document.body.style.overflow = 'hidden';
+                            return Promise.resolve();
+                        }
+                        return Promise.reject('No fullscreen method available');
+                    }
+                ];
+                
+                // Try each method until one works
+                const tryFullscreen = (index = 0) => {
+                    if (index >= fullscreenMethods.length) {
+                        console.warn('Fullscreen not supported, using fallback');
+                        // Fallback: at least hide the address bar
+                        window.scrollTo(0, 1);
+                        isFullscreen = true;
+                        exitButton.style.display = 'flex';
+                        return;
+                    }
+                    
+                    try {
+                        const result = fullscreenMethods[index]();
+                        if (result && typeof result.catch === 'function') {
+                            result.then(() => {
+                                isFullscreen = true;
+                                exitButton.style.display = 'flex';
+                            }).catch(() => {
+                                tryFullscreen(index + 1);
+                            });
+                        } else {
+                            isFullscreen = true;
+                            exitButton.style.display = 'flex';
+                        }
+                    } catch (e) {
+                        tryFullscreen(index + 1);
+                    }
+                };
+                
+                tryFullscreen();
+                
+                // Additional mobile optimizations
+                if (isMobileDevice()) {
+                    // Hide the address bar on mobile
+                    window.scrollTo(0, 1);
+                    
+                    // Prevent zooming
+                    document.addEventListener('touchmove', preventZoom, { passive: false });
+                    
+                    // Prevent context menu
+                    document.addEventListener('contextmenu', preventContextMenu);
+                }
+            }
+            
+            // Exit fullscreen
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                
+                isFullscreen = false;
+                exitButton.style.display = 'none';
+                startScreen.style.display = 'flex';
+                slidesContainer.style.display = 'none';
+                landscapeMessage.style.display = 'none';
+                
+                // Remove mobile event listeners
+                document.removeEventListener('touchmove', preventZoom);
+                document.removeEventListener('contextmenu', preventContextMenu);
+            }
+            
+            // Prevent zoom on mobile
+            function preventZoom(e) {
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }
+            
+            // Prevent context menu
+            function preventContextMenu(e) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Fullscreen change event
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+            
+            function handleFullscreenChange() {
+                isFullscreen = !!(document.fullscreenElement || 
+                                 document.webkitFullscreenElement || 
+                                 document.mozFullScreenElement || 
+                                 document.msFullscreenElement);
+                
+                if (!isFullscreen) {
+                    exitButton.style.display = 'none';
+                    startScreen.style.display = 'flex';
+                    slidesContainer.style.display = 'none';
+                    landscapeMessage.style.display = 'none';
+                }
+            }
+            
+            // Check if device is mobile
+            function isMobileDevice() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
+            
+            // Check if device is iOS
+            function isIOS() {
+                return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            }
+            
+            // Orientation change event
+            window.addEventListener('orientationchange', function() {
+                // Small delay to allow orientation to complete
+                setTimeout(() => {
+                    if (isMobileDevice()) {
+                        if (window.innerHeight > window.innerWidth) {
+                            // Portrait mode
+                            landscapeMessage.style.display = 'flex';
+                        } else {
+                            // Landscape mode
+                            landscapeMessage.style.display = 'none';
+                        }
+                    }
+                    
+                    // Force resize to handle viewport changes
+                    window.dispatchEvent(new Event('resize'));
+                }, 300);
+            });
+            
+            // Handle resize events
+            window.addEventListener('resize', function() {
+                // Update slide positioning on resize
+                updateSlidePosition();
+                
+                // Re-check orientation on mobile
+                if (isMobileDevice() && isFullscreen) {
+                    if (window.innerHeight > window.innerWidth) {
+                        landscapeMessage.style.display = 'flex';
+                    } else {
+                        landscapeMessage.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Initialize audio players with reactive animations
+            function initAudioPlayer(playerIndex) {
+                const playButton = document.getElementById(`play-button-${playerIndex}`);
+                if (!playButton) return; // Skip if element doesn't exist
+                
+                const progressBar = document.querySelector(`#audio-player-${playerIndex} .progress-bar`);
+                const timeDisplay = document.querySelector(`#audio-player-${playerIndex} .time`);
+                const audio = document.getElementById(`audio-${playerIndex}`);
+                const profileIcon = document.getElementById(`profile-icon-${playerIndex}`);
+                const audioStatus = document.getElementById(`audio-status-${playerIndex}`);
+                
+                let isPlaying = false;
+                let animationId;
+                
+                // Show audio status
+                function showStatus(message, isError = false) {
+                    if (!audioStatus) return;
+                    audioStatus.textContent = message;
+                    audioStatus.style.color = isError ? '#ff4444' : '#666';
+                    
+                    setTimeout(() => {
+                        if (audioStatus && audioStatus.textContent === message) {
+                            audioStatus.textContent = isPlaying ? 'Playing' : 'Paused';
+                        }
+                    }, 3000);
+                }
+                
+                // Simple animation without Web Audio API
+                function simpleAnimate() {
+                    if (!isPlaying || !profileIcon) return;
+                    
+                    // Create a simple pulsing animation
+                    const scale = 1 + Math.sin(Date.now() / 200) * 0.1;
+                    profileIcon.style.transform = `scale(${scale})`;
+                    
+                    animationId = requestAnimationFrame(simpleAnimate);
+                }
+                
+                // Play/Pause functionality
+                playButton.addEventListener('click', function() {
+                    if (isPlaying) {
+                        // Pause audio
+                        audio.pause();
+                        playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                        if (animationId) {
+                            cancelAnimationFrame(animationId);
+                        }
+                        if (profileIcon) profileIcon.style.transform = 'scale(1)';
+                        showStatus('Paused');
+                        isPlaying = false;
+                    } else {
+                        // Play audio
+                        const playPromise = audio.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                // Audio started successfully
+                                playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                simpleAnimate();
+                                showStatus('Playing');
+                                isPlaying = true;
+                            }).catch(error => {
+                                // Audio failed to play
+                                console.error('Error playing audio:', error);
+                                showStatus('Audio Error: ' + error.message, true);
+                                
+                                // Try fallback approach - reset and try again
+                                try {
+                                    audio.currentTime = 0;
+                                    const fallbackPlay = audio.play();
+                                    if (fallbackPlay !== undefined) {
+                                        fallbackPlay.then(() => {
+                                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                            simpleAnimate();
+                                            showStatus('Playing (fallback)');
+                                            isPlaying = true;
+                                        }).catch(fallbackError => {
+                                            console.error('Fallback also failed:', fallbackError);
+                                            showStatus('Cannot play audio', true);
+                                        });
+                                    }
+                                } catch (fallbackError) {
+                                    console.error('Fallback also failed:', fallbackError);
+                                    showStatus('Cannot play audio', true);
+                                }
+                            });
+                        }
+                    }
+                });
+                
+                // Update progress bar
+                audio.addEventListener('timeupdate', function() {
+                    if (audio.duration && !isNaN(audio.duration)) {
+                        const progress = (audio.currentTime / audio.duration) * 100;
+                        if (progressBar) progressBar.style.width = `${progress}%`;
+                        
+                        const minutes = Math.floor(audio.currentTime / 60);
+                        const seconds = Math.floor(audio.currentTime % 60);
+                        if (timeDisplay) timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    }
+                });
+                
+                // Click on progress bar to seek
+                const progressContainer = document.querySelector(`#audio-player-${playerIndex} .progress-container`);
+                if (progressContainer) {
+                    progressContainer.addEventListener('click', function(e) {
+                        if (audio.duration && !isNaN(audio.duration)) {
+                            const clickPosition = (e.pageX - progressContainer.getBoundingClientRect().left) / progressContainer.offsetWidth;
+                            audio.currentTime = clickPosition * audio.duration;
+                        }
+                    });
+                }
+                
+                // Reset when audio ends
+                audio.addEventListener('ended', function() {
+                    isPlaying = false;
+                    playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                    if (progressBar) progressBar.style.width = '0%';
+                    if (timeDisplay) timeDisplay.textContent = '0:00';
+                    if (animationId) {
+                        cancelAnimationFrame(animationId);
+                    }
+                    if (profileIcon) profileIcon.style.transform = 'scale(1)';
+                    showStatus('Finished');
+                });
+                
+                // Handle audio loading
+                audio.addEventListener('canplaythrough', function() {
+                    console.log(`Audio ${playerIndex} loaded and ready`);
+                    showStatus('Ready to play');
+                });
+                
+                audio.addEventListener('error', function(e) {
+                    console.error(`Audio error for player ${playerIndex}:`, e);
+                    showStatus('Audio load error', true);
+                });
+                
+                // Preload audio
+                audio.load();
+            }
+            
+            // Initialize all audio players
+            for (let i = 1; i <= 26; i++) {
+                initAudioPlayer(i);
+            }
+        });
+    </script>
+</body>
+</html>
