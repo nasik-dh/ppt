@@ -1792,8 +1792,8 @@
                 currentSlide = slideIndex;
                 updateSlidePosition();
                 
-                // Pause any playing audio when changing slides
-                pauseAllAudio();
+                // Audio will now continue playing when changing slides
+                // (removed the pauseAllAudio() call)
             }
         }
         
@@ -1802,7 +1802,7 @@
             slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
         
-        // Pause all audio players
+        // Pause all audio players except the current playing one
         function pauseAllAudio() {
             for (let i = 1; i <= 26; i++) {
                 const audio = document.getElementById(`audio-${i}`);
@@ -1810,18 +1810,24 @@
                 const profileIcon = document.getElementById(`profile-icon-${i}`);
                 const audioStatus = document.getElementById(`audio-status-${i}`);
                 
+                // Only pause audio if it's playing AND we're not in an audio slide
                 if (audio && !audio.paused) {
-                    audio.pause();
-                    if (playButton) {
-                        playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
-                        playButton.classList.remove('playing');
-                    }
-                    if (profileIcon) {
-                        profileIcon.classList.remove('animated');
-                    }
-                    if (audioStatus) {
-                        audioStatus.textContent = 'Paused';
-                        audioStatus.className = 'audio-status paused';
+                    // Check if this audio element is in the current slide
+                    const isInCurrentSlide = slides[currentSlide].contains(audio);
+                    
+                    if (!isInCurrentSlide) {
+                        audio.pause();
+                        if (playButton) {
+                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                            playButton.classList.remove('playing');
+                        }
+                        if (profileIcon) {
+                            profileIcon.classList.remove('animated');
+                        }
+                        if (audioStatus) {
+                            audioStatus.textContent = 'Paused';
+                            audioStatus.className = 'audio-status paused';
+                        }
                     }
                 }
             }
@@ -1970,8 +1976,30 @@
                     showStatus('Paused', 'paused');
                     isPlaying = false;
                 } else {
-                    // Pause other audio players
-                    pauseAllAudio();
+                    // Only pause other audio players, not the current one
+                    for (let i = 1; i <= 26; i++) {
+                        if (i !== playerIndex) {
+                            const otherAudio = document.getElementById(`audio-${i}`);
+                            const otherPlayButton = document.getElementById(`play-button-${i}`);
+                            const otherProfileIcon = document.getElementById(`profile-icon-${i}`);
+                            const otherAudioStatus = document.getElementById(`audio-status-${i}`);
+                            
+                            if (otherAudio && !otherAudio.paused) {
+                                otherAudio.pause();
+                                if (otherPlayButton) {
+                                    otherPlayButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                                    otherPlayButton.classList.remove('playing');
+                                }
+                                if (otherProfileIcon) {
+                                    otherProfileIcon.classList.remove('animated');
+                                }
+                                if (otherAudioStatus) {
+                                    otherAudioStatus.textContent = 'Paused';
+                                    otherAudioStatus.className = 'audio-status paused';
+                                }
+                            }
+                        }
+                    }
                     
                     // Play audio
                     const playPromise = audio.play();
