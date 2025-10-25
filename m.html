@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Slide Presentation</title>
     <style>
         * {
@@ -13,11 +13,12 @@
 
         html, body {
             font-family: Arial, sans-serif;
-            overflow: hidden;
-            background-color: white;
+            background-color: #f5f5f5;
             height: 100%;
             width: 100%;
-            position: fixed; /* Prevent scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Start Screen */
@@ -32,6 +33,8 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            flex-direction: column;
+            padding: 20px;
         }
 
         #start-button {
@@ -43,22 +46,41 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 20px;
         }
 
         #start-button:hover {
             background-color: #3a5bef;
         }
 
+        .start-info {
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .start-info h1 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .start-info p {
+            color: #666;
+            line-height: 1.5;
+        }
+
         /* Slides Container */
         #slides-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: none;
+            width: 100%;
+            max-width: 1200px;
+            height: 80vh;
+            margin: 0 auto;
+            position: relative;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            background-color: black;
         }
 
         .slides-wrapper {
@@ -76,13 +98,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: black;
+            background-color: #222;
+            overflow: hidden;
         }
 
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background-color: #222;
         }
 
         /* Content overlay for slides with background images */
@@ -97,15 +121,16 @@
             justify-content: center;
             align-items: center;
             z-index: 2;
+            padding: 20px;
         }
 
         /* Audio Player Styling */
         .profile-icon {
-            width: 240px;
-            height: 240px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             overflow: hidden;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             border: 6px solid white;
             position: relative;
@@ -123,9 +148,9 @@
             align-items: center;
             background-color: #e0f7fa;
             border-radius: 50px;
-            padding: 20px 40px;
+            padding: 15px 30px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 500px;
             width: 90%;
             position: relative;
         }
@@ -134,13 +159,13 @@
             background-color: #25d366;
             border: none;
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            margin-right: 30px;
+            margin-right: 20px;
             transition: transform 0.2s;
         }
 
@@ -149,14 +174,14 @@
         }
 
         .play-button svg {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             fill: white;
         }
 
         .progress-container {
             flex-grow: 1;
-            height: 8px;
+            height: 6px;
             background-color: #b2dfdb;
             border-radius: 4px;
             position: relative;
@@ -172,26 +197,26 @@
         }
 
         .time {
-            margin-left: 30px;
-            font-size: 1.6rem;
+            margin-left: 20px;
+            font-size: 1.2rem;
             color: #546e7a;
-            min-width: 80px;
+            min-width: 60px;
         }
 
         .audio-status {
             position: absolute;
-            top: -30px;
+            top: -25px;
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
         }
 
         /* Video Slide Styling */
         .video-container {
-            width: 70%;
-            height: 70%;
+            width: 80%;
+            height: 60%;
             position: relative;
         }
 
@@ -203,8 +228,8 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Exit Fullscreen Button */
-        #exit-fullscreen {
+        /* Exit Button */
+        #exit-button {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -222,32 +247,9 @@
             display: none;
         }
 
-        /* Mobile Landscape Message */
-        #landscape-message {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            color: white;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 2000;
-            text-align: center;
-            padding: 20px;
-        }
-
-        #landscape-message p {
-            margin-top: 20px;
-            font-size: 1.2rem;
-        }
-
         /* Slide Indicators */
         .slide-indicators {
-            position: fixed;
+            position: absolute;
             bottom: 20px;
             left: 0;
             width: 100%;
@@ -265,26 +267,26 @@
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.5);
             transition: background-color 0.3s;
+            cursor: pointer;
         }
 
         .indicator.active {
             background-color: white;
         }
 
-        /* Mobile Navigation Controls */
-        #mobile-controls {
-            position: fixed;
-            bottom: 70px;
+        /* Navigation Controls */
+        #navigation-controls {
+            position: absolute;
+            bottom: 20px;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: space-between;
             padding: 0 20px;
             z-index: 5;
-            display: none;
         }
 
-        .mobile-nav-btn {
+        .nav-btn {
             background-color: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
@@ -296,79 +298,134 @@
             align-items: center;
             cursor: pointer;
             font-size: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 5;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
+            #slides-container {
+                height: 70vh;
+                width: 95%;
+            }
+            
             .profile-icon {
-                width: 180px;
-                height: 180px;
+                width: 150px;
+                height: 150px;
             }
             
             .audio-player {
-                max-width: 500px;
-                padding: 15px 30px;
+                max-width: 400px;
+                padding: 12px 20px;
             }
             
             .play-button {
-                width: 60px;
-                height: 60px;
-                margin-right: 20px;
+                width: 50px;
+                height: 50px;
+                margin-right: 15px;
             }
             
             .play-button svg {
-                width: 30px;
-                height: 30px;
+                width: 25px;
+                height: 25px;
             }
             
             .time {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
             
             .video-container {
-                width: 90%;
-                height: 60%;
+                width: 95%;
+                height: 50%;
             }
 
-            /* Show mobile controls on mobile */
-            #mobile-controls {
-                display: flex;
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
             }
 
-            /* Hide indicators on mobile when not in use */
+            .slide-counter {
+                top: 10px;
+                right: 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #slides-container {
+                height: 60vh;
+                width: 98%;
+            }
+            
+            .profile-icon {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
+            }
+            
+            .audio-player {
+                max-width: 320px;
+                padding: 10px 15px;
+            }
+            
+            .play-button {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+            
+            .play-button svg {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .time {
+                font-size: 0.9rem;
+                margin-left: 10px;
+                min-width: 50px;
+            }
+
             .slide-indicators {
-                opacity: 0.5;
-                transition: opacity 0.3s;
+                bottom: 10px;
             }
 
-            .slide-indicators:hover,
-            .slide-indicators:active {
-                opacity: 1;
+            .nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
             }
         }
 
         @media (max-height: 500px) and (orientation: landscape) {
+            #slides-container {
+                height: 90vh;
+            }
+            
             .profile-icon {
-                width: 140px;
-                height: 140px;
-                margin-bottom: 30px;
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
             }
             
             .audio-player {
-                padding: 15px 25px;
-            }
-        }
-
-        /* Hide address bar on mobile */
-        @media (max-width: 768px) and (orientation: portrait) {
-            html, body {
-                height: 100vh;
-                height: -webkit-fill-available;
-            }
-
-            #slides-container {
-                height: 100vh;
-                height: -webkit-fill-available;
+                padding: 10px 20px;
             }
         }
     </style>
@@ -376,13 +433,16 @@
 <body>
     <!-- Start Screen -->
     <div id="start-screen">
+        <div class="start-info">
+            <h1>Interactive Slide Presentation</h1>
+            <p>This presentation contains 35 slides with images, audio players, and interactive content. Navigate using arrow keys, swipe gestures, or the on-screen controls.</p>
+        </div>
         <button id="start-button">Start Presentation</button>
     </div>
 
     <!-- Slides Container -->
     <div id="slides-container">
         <div class="slides-wrapper">
-            <!-- Slides content here - shortened for brevity -->
             <!-- Slide 1 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/1.jpg" alt="Slide 1">
@@ -392,7 +452,6 @@
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/2.jpg" alt="Slide 2">
             </div>
-            
             <!-- Slide 3 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/3.jpg" alt="Slide 3">
@@ -1258,13 +1317,14 @@
             <!-- Slide 35 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/35.jpg" alt="Slide 35">
+                <div class="slide-counter">35 / 35</div>
             </div>
         </div>
         
-        <!-- Mobile Navigation Controls -->
-        <div id="mobile-controls">
-            <button class="mobile-nav-btn" id="prev-btn">◀</button>
-            <button class="mobile-nav-btn" id="next-btn">▶</button>
+        <!-- Navigation Controls -->
+        <div id="navigation-controls">
+            <button class="nav-btn" id="prev-btn">◀</button>
+            <button class="nav-btn" id="next-btn">▶</button>
         </div>
         
         <!-- Slide Indicators -->
@@ -1273,14 +1333,8 @@
         </div>
     </div>
 
-    <!-- Exit Fullscreen Button -->
-    <button id="exit-fullscreen">X</button>
-
-    <!-- Mobile Landscape Message -->
-    <div id="landscape-message">
-        <h2>Please rotate your device to landscape mode</h2>
-        <p>For the best experience, please use your device in landscape orientation.</p>
-    </div>
+    <!-- Exit Button -->
+    <button id="exit-button">X</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1291,14 +1345,13 @@
             const slidesWrapper = document.querySelector('.slides-wrapper');
             const slides = document.querySelectorAll('.slide');
             const indicatorsContainer = document.querySelector('.slide-indicators');
-            const exitButton = document.getElementById('exit-fullscreen');
-            const landscapeMessage = document.getElementById('landscape-message');
+            const exitButton = document.getElementById('exit-button');
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
+            const slideCounters = document.querySelectorAll('.slide-counter');
             
             // Variables
             let currentSlide = 0;
-            let isFullscreen = false;
             let touchStartX = 0;
             let touchEndX = 0;
             let indicators = [];
@@ -1306,7 +1359,12 @@
             // Generate indicators dynamically
             function generateIndicators() {
                 indicatorsContainer.innerHTML = '';
-                for (let i = 0; i < slides.length; i++) {
+                indicators = [];
+                
+                // Only show indicators for the first 10 slides for better mobile experience
+                const maxIndicators = Math.min(slides.length, 10);
+                
+                for (let i = 0; i < maxIndicators; i++) {
                     const indicator = document.createElement('div');
                     indicator.className = 'indicator';
                     if (i === currentSlide) {
@@ -1318,40 +1376,50 @@
                     indicatorsContainer.appendChild(indicator);
                     indicators.push(indicator);
                 }
+                
+                // Add dots for additional slides if needed
+                if (slides.length > maxIndicators) {
+                    const dots = document.createElement('div');
+                    dots.style.color = 'white';
+                    dots.style.marginLeft = '5px';
+                    dots.textContent = '...';
+                    indicatorsContainer.appendChild(dots);
+                }
             }
             
             // Start button click event
             startButton.addEventListener('click', function() {
                 startScreen.style.display = 'none';
                 slidesContainer.style.display = 'block';
+                exitButton.style.display = 'flex';
                 
                 // Generate indicators
                 generateIndicators();
                 
-                // Request fullscreen
-                requestFullscreen();
+                // Update slide counters
+                updateSlideCounters();
                 
-                // Check if mobile and show landscape message if needed
-                if (isMobileDevice() && window.innerHeight > window.innerWidth) {
-                    landscapeMessage.style.display = 'flex';
-                }
-                
-                // Force resize to handle mobile viewport issues
+                // Force resize to handle viewport issues
                 setTimeout(() => {
                     window.dispatchEvent(new Event('resize'));
                 }, 100);
             });
             
-            // Exit fullscreen button
-            exitButton.addEventListener('click', exitFullscreen);
+            // Exit button
+            exitButton.addEventListener('click', function() {
+                slidesContainer.style.display = 'none';
+                startScreen.style.display = 'flex';
+                exitButton.style.display = 'none';
+                goToSlide(0);
+            });
             
-            // Mobile navigation buttons
+            // Navigation buttons
             prevBtn.addEventListener('click', prevSlide);
             nextBtn.addEventListener('click', nextSlide);
             
             // Keyboard navigation
             document.addEventListener('keydown', function(e) {
-                if (!isFullscreen) return;
+                if (slidesContainer.style.display !== 'block') return;
                 
                 switch(e.key) {
                     case 'ArrowRight':
@@ -1364,7 +1432,9 @@
                         prevSlide();
                         break;
                     case 'Escape':
-                        exitFullscreen();
+                        slidesContainer.style.display = 'none';
+                        startScreen.style.display = 'flex';
+                        exitButton.style.display = 'none';
                         break;
                     case 'Home':
                         goToSlide(0);
@@ -1376,26 +1446,13 @@
             });
             
             // Touch events for mobile swipe
-            document.addEventListener('touchstart', function(e) {
+            slidesContainer.addEventListener('touchstart', function(e) {
                 touchStartX = e.changedTouches[0].screenX;
             });
             
-            document.addEventListener('touchend', function(e) {
+            slidesContainer.addEventListener('touchend', function(e) {
                 touchEndX = e.changedTouches[0].screenX;
                 handleSwipe();
-            });
-            
-            // Double tap to exit fullscreen on mobile
-            let lastTap = 0;
-            document.addEventListener('touchend', function(e) {
-                const currentTime = new Date().getTime();
-                const tapLength = currentTime - lastTap;
-                
-                if (tapLength < 500 && tapLength > 0) {
-                    // Double tap detected
-                    exitFullscreen();
-                }
-                lastTap = currentTime;
             });
             
             // Handle swipe gesture
@@ -1415,6 +1472,9 @@
             function nextSlide() {
                 if (currentSlide < slides.length - 1) {
                     goToSlide(currentSlide + 1);
+                } else {
+                    // Loop back to first slide
+                    goToSlide(0);
                 }
             }
             
@@ -1422,6 +1482,9 @@
             function prevSlide() {
                 if (currentSlide > 0) {
                     goToSlide(currentSlide - 1);
+                } else {
+                    // Loop to last slide
+                    goToSlide(slides.length - 1);
                 }
             }
             
@@ -1431,6 +1494,10 @@
                     currentSlide = slideIndex;
                     updateSlidePosition();
                     updateIndicators();
+                    updateSlideCounters();
+                    
+                    // Pause any playing audio when changing slides
+                    pauseAllAudio();
                 }
             }
             
@@ -1450,174 +1517,37 @@
                 });
             }
             
-            // Request fullscreen with better mobile support
-            function requestFullscreen() {
-                const element = document.documentElement;
-                
-                // Try different fullscreen methods
-                const fullscreenMethods = [
-                    () => element.requestFullscreen(),
-                    () => element.webkitRequestFullscreen(),
-                    () => element.mozRequestFullScreen(),
-                    () => element.msRequestFullscreen(),
-                    // Mobile-specific fullscreen approaches
-                    () => {
-                        // For iOS, we need to use a different approach
-                        if (isIOS()) {
-                            // Try to maximize the viewport
-                            document.body.style.height = '100vh';
-                            document.body.style.overflow = 'hidden';
-                            return Promise.resolve();
+            // Update slide counters
+            function updateSlideCounters() {
+                slideCounters.forEach(counter => {
+                    counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                });
+            }
+            
+            // Pause all audio players
+            function pauseAllAudio() {
+                for (let i = 1; i <= 26; i++) {
+                    const audio = document.getElementById(`audio-${i}`);
+                    const playButton = document.getElementById(`play-button-${i}`);
+                    const profileIcon = document.getElementById(`profile-icon-${i}`);
+                    const audioStatus = document.getElementById(`audio-status-${i}`);
+                    
+                    if (audio && !audio.paused) {
+                        audio.pause();
+                        if (playButton) {
+                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
                         }
-                        return Promise.reject('No fullscreen method available');
-                    }
-                ];
-                
-                // Try each method until one works
-                const tryFullscreen = (index = 0) => {
-                    if (index >= fullscreenMethods.length) {
-                        console.warn('Fullscreen not supported, using fallback');
-                        // Fallback: at least hide the address bar
-                        window.scrollTo(0, 1);
-                        isFullscreen = true;
-                        exitButton.style.display = 'flex';
-                        return;
-                    }
-                    
-                    try {
-                        const result = fullscreenMethods[index]();
-                        if (result && typeof result.catch === 'function') {
-                            result.then(() => {
-                                isFullscreen = true;
-                                exitButton.style.display = 'flex';
-                            }).catch(() => {
-                                tryFullscreen(index + 1);
-                            });
-                        } else {
-                            isFullscreen = true;
-                            exitButton.style.display = 'flex';
+                        if (profileIcon) {
+                            profileIcon.style.transform = 'scale(1)';
                         }
-                    } catch (e) {
-                        tryFullscreen(index + 1);
-                    }
-                };
-                
-                tryFullscreen();
-                
-                // Additional mobile optimizations
-                if (isMobileDevice()) {
-                    // Hide the address bar on mobile
-                    window.scrollTo(0, 1);
-                    
-                    // Prevent zooming
-                    document.addEventListener('touchmove', preventZoom, { passive: false });
-                    
-                    // Prevent context menu
-                    document.addEventListener('contextmenu', preventContextMenu);
-                }
-            }
-            
-            // Exit fullscreen
-            function exitFullscreen() {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                
-                isFullscreen = false;
-                exitButton.style.display = 'none';
-                startScreen.style.display = 'flex';
-                slidesContainer.style.display = 'none';
-                landscapeMessage.style.display = 'none';
-                
-                // Remove mobile event listeners
-                document.removeEventListener('touchmove', preventZoom);
-                document.removeEventListener('contextmenu', preventContextMenu);
-            }
-            
-            // Prevent zoom on mobile
-            function preventZoom(e) {
-                if (e.touches.length > 1) {
-                    e.preventDefault();
-                }
-            }
-            
-            // Prevent context menu
-            function preventContextMenu(e) {
-                e.preventDefault();
-                return false;
-            }
-            
-            // Fullscreen change event
-            document.addEventListener('fullscreenchange', handleFullscreenChange);
-            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-            
-            function handleFullscreenChange() {
-                isFullscreen = !!(document.fullscreenElement || 
-                                 document.webkitFullscreenElement || 
-                                 document.mozFullScreenElement || 
-                                 document.msFullscreenElement);
-                
-                if (!isFullscreen) {
-                    exitButton.style.display = 'none';
-                    startScreen.style.display = 'flex';
-                    slidesContainer.style.display = 'none';
-                    landscapeMessage.style.display = 'none';
-                }
-            }
-            
-            // Check if device is mobile
-            function isMobileDevice() {
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            }
-            
-            // Check if device is iOS
-            function isIOS() {
-                return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            }
-            
-            // Orientation change event
-            window.addEventListener('orientationchange', function() {
-                // Small delay to allow orientation to complete
-                setTimeout(() => {
-                    if (isMobileDevice()) {
-                        if (window.innerHeight > window.innerWidth) {
-                            // Portrait mode
-                            landscapeMessage.style.display = 'flex';
-                        } else {
-                            // Landscape mode
-                            landscapeMessage.style.display = 'none';
+                        if (audioStatus) {
+                            audioStatus.textContent = 'Paused';
                         }
                     }
-                    
-                    // Force resize to handle viewport changes
-                    window.dispatchEvent(new Event('resize'));
-                }, 300);
-            });
-            
-            // Handle resize events
-            window.addEventListener('resize', function() {
-                // Update slide positioning on resize
-                updateSlidePosition();
-                
-                // Re-check orientation on mobile
-                if (isMobileDevice() && isFullscreen) {
-                    if (window.innerHeight > window.innerWidth) {
-                        landscapeMessage.style.display = 'flex';
-                    } else {
-                        landscapeMessage.style.display = 'none';
-                    }
                 }
-            });
+            }
             
-            // Initialize audio players with reactive animations
+            // Initialize audio players
             function initAudioPlayer(playerIndex) {
                 const playButton = document.getElementById(`play-button-${playerIndex}`);
                 if (!playButton) return; // Skip if element doesn't exist
@@ -1668,6 +1598,9 @@
                         showStatus('Paused');
                         isPlaying = false;
                     } else {
+                        // Pause other audio players
+                        pauseAllAudio();
+                        
                         // Play audio
                         const playPromise = audio.play();
                         
@@ -1762,6 +1695,12 @@
             for (let i = 1; i <= 26; i++) {
                 initAudioPlayer(i);
             }
+            
+            // Handle resize events
+            window.addEventListener('resize', function() {
+                // Update slide positioning on resize
+                updateSlidePosition();
+            });
         });
     </script>
 </body>
