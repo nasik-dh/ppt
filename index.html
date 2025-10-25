@@ -356,79 +356,7 @@
             transform: scale(1.1);
         }
 
-        /* Slide Indicators */
-        .slide-indicators {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            z-index: 5;
-            gap: 8px;
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .indicator.active {
-            background-color: white;
-            transform: scale(1.2);
-        }
-
-        /* Navigation Controls */
-        #navigation-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 5;
-        }
-
-        .nav-btn {
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            transform: scale(1.1);
-        }
-
-        /* Slide Counter */
-        .slide-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 5;
-            font-weight: 500;
-        }
+        
 
         /* Landscape Message */
         #landscape-message {
@@ -1679,21 +1607,7 @@
             </div>
         </div>
         
-        <!-- Navigation Controls -->
-        <div id="navigation-controls"> 
-            <button class="nav-btn" id="prev-btn">◀</button> 
-            <button class="nav-btn" id="next-btn">▶</button> 
-        </div>
         
-        
-        <!-- Slide Counter -->
-        <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">35</span>
-        </div>
-        
-        <!-- Slide Indicators -->
-     <div class="slide-indicators"></div>
-    </div>
 
     <!-- Exit Button -->
     <button id="exit-button">X</button>
@@ -1706,527 +1620,458 @@
     </div>
 
     <script>
-        // JavaScript code remains the same as in the previous example
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elements
-            const startScreen = document.getElementById('start-screen');
-            const startButton = document.getElementById('start-button');
-            const slidesContainer = document.getElementById('slides-container');
-            const slidesWrapper = document.querySelector('.slides-wrapper');
-            const slides = document.querySelectorAll('.slide');
-            const indicatorsContainer = document.querySelector('.slide-indicators');
-            const exitButton = document.getElementById('exit-button');
-            const landscapeMessage = document.getElementById('landscape-message');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const currentSlideElement = document.getElementById('current-slide');
-            const totalSlidesElement = document.getElementById('total-slides');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const startScreen = document.getElementById('start-screen');
+        const startButton = document.getElementById('start-button');
+        const slidesContainer = document.getElementById('slides-container');
+        const slidesWrapper = document.querySelector('.slides-wrapper');
+        const slides = document.querySelectorAll('.slide');
+        const exitButton = document.getElementById('exit-button');
+        const landscapeMessage = document.getElementById('landscape-message');
+        
+        // Variables
+        let currentSlide = 0;
+        let isFullscreen = false;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        // Start button click event
+        startButton.addEventListener('click', function() {
+            startScreen.style.display = 'none';
+            slidesContainer.style.display = 'block';
+            exitButton.style.display = 'flex';
             
-            // Variables
-            let currentSlide = 0;
-            let isFullscreen = false;
-            let touchStartX = 0;
-            let touchEndX = 0;
-            let indicators = [];
+            // Enter fullscreen mode
+            enterFullscreen();
             
-            // Set total slides count
-            totalSlidesElement.textContent = slides.length;
+            // Check if mobile and show landscape message if needed
+            if (isMobileDevice() && window.innerHeight > window.innerWidth) {
+                landscapeMessage.style.display = 'flex';
+            }
             
-            // Generate indicators dynamically
-            function generateIndicators() {
-                indicatorsContainer.innerHTML = '';
-                indicators = [];
+            // Force resize to handle viewport issues
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 100);
+        });
+        
+        // Enter fullscreen mode using Fullscreen API
+        function enterFullscreen() {
+            const element = document.documentElement;
+            
+            // Try different fullscreen methods
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            
+            slidesContainer.classList.add('fullscreen');
+            document.body.classList.add('fullscreen');
+            isFullscreen = true;
+            
+            // Additional mobile optimizations
+            if (isMobileDevice()) {
+                // Hide the address bar on mobile
+                window.scrollTo(0, 1);
                 
-                // Only show indicators for the first 10 slides for better mobile experience
-                const maxIndicators = Math.min(slides.length, 10);
+                // Prevent zooming
+                document.addEventListener('touchmove', preventZoom, { passive: false });
                 
-                for (let i = 0; i < maxIndicators; i++) {
-                    const indicator = document.createElement('div');
-                    indicator.className = 'indicator';
-                    if (i === currentSlide) {
-                        indicator.classList.add('active');
+                // Prevent context menu
+                document.addEventListener('contextmenu', preventContextMenu);
+            }
+        }
+        
+        // Exit fullscreen mode
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+            
+            slidesContainer.classList.remove('fullscreen');
+            document.body.classList.remove('fullscreen');
+            isFullscreen = false;
+            
+            exitButton.style.display = 'none';
+            startScreen.style.display = 'flex';
+            slidesContainer.style.display = 'none';
+            landscapeMessage.style.display = 'none';
+            
+            // Remove mobile event listeners
+            document.removeEventListener('touchmove', preventZoom);
+            document.removeEventListener('contextmenu', preventContextMenu);
+        }
+        
+        // Exit button
+        exitButton.addEventListener('click', exitFullscreen);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (slidesContainer.style.display !== 'block') return;
+            
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                case 'PageDown':
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                case 'PageUp':
+                    prevSlide();
+                    break;
+                case 'Escape':
+                    exitFullscreen();
+                    break;
+                case 'Home':
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    goToSlide(slides.length - 1);
+                    break;
+            }
+        });
+        
+        // Touch events for mobile swipe
+        slidesContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        slidesContainer.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        // Handle swipe gesture
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left - next slide
+                nextSlide();
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right - previous slide
+                prevSlide();
+            }
+        }
+        
+        // Next slide
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                goToSlide(currentSlide + 1);
+            } else {
+                // Loop back to first slide
+                goToSlide(0);
+            }
+        }
+        
+        // Previous slide
+        function prevSlide() {
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            } else {
+                // Loop to last slide
+                goToSlide(slides.length - 1);
+            }
+        }
+        
+        // Go to specific slide
+        function goToSlide(slideIndex) {
+            if (slideIndex >= 0 && slideIndex < slides.length) {
+                currentSlide = slideIndex;
+                updateSlidePosition();
+                
+                // Pause any playing audio when changing slides
+                pauseAllAudio();
+            }
+        }
+        
+        // Update slide position
+        function updateSlidePosition() {
+            slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        
+        // Pause all audio players
+        function pauseAllAudio() {
+            for (let i = 1; i <= 26; i++) {
+                const audio = document.getElementById(`audio-${i}`);
+                const playButton = document.getElementById(`play-button-${i}`);
+                const profileIcon = document.getElementById(`profile-icon-${i}`);
+                const audioStatus = document.getElementById(`audio-status-${i}`);
+                
+                if (audio && !audio.paused) {
+                    audio.pause();
+                    if (playButton) {
+                        playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                        playButton.classList.remove('playing');
                     }
-                    indicator.addEventListener('click', () => {
-                        goToSlide(i);
-                    });
-                    indicatorsContainer.appendChild(indicator);
-                    indicators.push(indicator);
-                }
-                
-                // Add dots for additional slides if needed
-                if (slides.length > maxIndicators) {
-                    const dots = document.createElement('div');
-                    dots.style.color = 'white';
-                    dots.style.marginLeft = '5px';
-                    dots.textContent = '...';
-                    indicatorsContainer.appendChild(dots);
+                    if (profileIcon) {
+                        profileIcon.classList.remove('animated');
+                    }
+                    if (audioStatus) {
+                        audioStatus.textContent = 'Paused';
+                        audioStatus.className = 'audio-status paused';
+                    }
                 }
             }
-            
-            // Start button click event
-            startButton.addEventListener('click', function() {
-                startScreen.style.display = 'none';
-                slidesContainer.style.display = 'block';
-                exitButton.style.display = 'flex';
-                
-                // Enter fullscreen mode
-                enterFullscreen();
-                
-                // Generate indicators
-                generateIndicators();
-                
-                // Update slide counter
-                updateSlideCounter();
-                
-                // Check if mobile and show landscape message if needed
-                if (isMobileDevice() && window.innerHeight > window.innerWidth) {
-                    landscapeMessage.style.display = 'flex';
-                }
-                
-                // Force resize to handle viewport issues
-                setTimeout(() => {
-                    window.dispatchEvent(new Event('resize'));
-                }, 100);
-            });
-            
-            // Enter fullscreen mode using Fullscreen API
-            function enterFullscreen() {
-                const element = document.documentElement;
-                
-                // Try different fullscreen methods
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                } else if (element.webkitRequestFullscreen) {
-                    element.webkitRequestFullscreen();
-                } else if (element.mozRequestFullScreen) {
-                    element.mozRequestFullScreen();
-                } else if (element.msRequestFullscreen) {
-                    element.msRequestFullscreen();
-                }
-                
-                slidesContainer.classList.add('fullscreen');
-                document.body.classList.add('fullscreen');
-                isFullscreen = true;
-                
-                // Additional mobile optimizations
-                if (isMobileDevice()) {
-                    // Hide the address bar on mobile
-                    window.scrollTo(0, 1);
-                    
-                    // Prevent zooming
-                    document.addEventListener('touchmove', preventZoom, { passive: false });
-                    
-                    // Prevent context menu
-                    document.addEventListener('contextmenu', preventContextMenu);
-                }
+        }
+        
+        // Prevent zoom on mobile
+        function preventZoom(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
             }
+        }
+        
+        // Prevent context menu
+        function preventContextMenu(e) {
+            e.preventDefault();
+            return false;
+        }
+        
+        // Fullscreen change event
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+        
+        function handleFullscreenChange() {
+            isFullscreen = !!(document.fullscreenElement || 
+                             document.webkitFullscreenElement || 
+                             document.mozFullScreenElement || 
+                             document.msFullscreenElement);
             
-            // Exit fullscreen mode
-            function exitFullscreen() {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                
+            if (!isFullscreen) {
                 slidesContainer.classList.remove('fullscreen');
                 document.body.classList.remove('fullscreen');
-                isFullscreen = false;
-                
                 exitButton.style.display = 'none';
                 startScreen.style.display = 'flex';
                 slidesContainer.style.display = 'none';
                 landscapeMessage.style.display = 'none';
-                
-                // Remove mobile event listeners
-                document.removeEventListener('touchmove', preventZoom);
-                document.removeEventListener('contextmenu', preventContextMenu);
             }
-            
-            // Exit button
-            exitButton.addEventListener('click', exitFullscreen);
-            
-            // Navigation buttons
-            prevBtn.addEventListener('click', prevSlide);
-            nextBtn.addEventListener('click', nextSlide);
-            
-            // Update slide counter
-            function updateSlideCounter() {
-                currentSlideElement.textContent = currentSlide + 1;
-            }
-            
-            // Keyboard navigation
-            document.addEventListener('keydown', function(e) {
-                if (slidesContainer.style.display !== 'block') return;
-                
-                switch(e.key) {
-                    case 'ArrowRight':
-                    case ' ':
-                    case 'PageDown':
-                        nextSlide();
-                        break;
-                    case 'ArrowLeft':
-                    case 'PageUp':
-                        prevSlide();
-                        break;
-                    case 'Escape':
-                        exitFullscreen();
-                        break;
-                    case 'Home':
-                        goToSlide(0);
-                        break;
-                    case 'End':
-                        goToSlide(slides.length - 1);
-                        break;
-                }
-            });
-            
-            // Touch events for mobile swipe
-            slidesContainer.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            
-            slidesContainer.addEventListener('touchend', function(e) {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-            
-            // Handle swipe gesture
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                
-                if (touchEndX < touchStartX - swipeThreshold) {
-                    // Swipe left - next slide
-                    nextSlide();
-                } else if (touchEndX > touchStartX + swipeThreshold) {
-                    // Swipe right - previous slide
-                    prevSlide();
-                }
-            }
-            
-            // Next slide
-            function nextSlide() {
-                if (currentSlide < slides.length - 1) {
-                    goToSlide(currentSlide + 1);
-                } else {
-                    // Loop back to first slide
-                    goToSlide(0);
-                }
-            }
-            
-            // Previous slide
-            function prevSlide() {
-                if (currentSlide > 0) {
-                    goToSlide(currentSlide - 1);
-                } else {
-                    // Loop to last slide
-                    goToSlide(slides.length - 1);
-                }
-            }
-            
-            // Go to specific slide
-            function goToSlide(slideIndex) {
-                if (slideIndex >= 0 && slideIndex < slides.length) {
-                    currentSlide = slideIndex;
-                    updateSlidePosition();
-                    updateIndicators();
-                    updateSlideCounter();
-                    
-                    // Pause any playing audio when changing slides
-                    pauseAllAudio();
-                }
-            }
-            
-            // Update slide position
-            function updateSlidePosition() {
-                slidesWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
-            
-            // Update indicators
-            function updateIndicators() {
-                indicators.forEach((indicator, index) => {
-                    if (index === currentSlide) {
-                        indicator.classList.add('active');
+        }
+        
+        // Check if device is mobile
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // Orientation change event
+        window.addEventListener('orientationchange', function() {
+            // Small delay to allow orientation to complete
+            setTimeout(() => {
+                if (isMobileDevice() && isFullscreen) {
+                    if (window.innerHeight > window.innerWidth) {
+                        // Portrait mode
+                        landscapeMessage.style.display = 'flex';
                     } else {
-                        indicator.classList.remove('active');
+                        // Landscape mode
+                        landscapeMessage.style.display = 'none';
                     }
-                });
-            }
+                }
+                
+                // Force resize to handle viewport changes
+                window.dispatchEvent(new Event('resize'));
+            }, 300);
+        });
+        
+        // Handle resize events
+        window.addEventListener('resize', function() {
+            // Update slide positioning on resize
+            updateSlidePosition();
             
-            // Pause all audio players
-            function pauseAllAudio() {
-                for (let i = 1; i <= 26; i++) {
-                    const audio = document.getElementById(`audio-${i}`);
-                    const playButton = document.getElementById(`play-button-${i}`);
-                    const profileIcon = document.getElementById(`profile-icon-${i}`);
-                    const audioStatus = document.getElementById(`audio-status-${i}`);
-                    
-                    if (audio && !audio.paused) {
-                        audio.pause();
-                        if (playButton) {
-                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
-                            playButton.classList.remove('playing');
-                        }
-                        if (profileIcon) {
-                            profileIcon.classList.remove('animated');
-                        }
-                        if (audioStatus) {
+            // Re-check orientation on mobile
+            if (isMobileDevice() && isFullscreen) {
+                if (window.innerHeight > window.innerWidth) {
+                    landscapeMessage.style.display = 'flex';
+                } else {
+                    landscapeMessage.style.display = 'none';
+                }
+            }
+        });
+        
+        // Initialize audio players
+        function initAudioPlayer(playerIndex) {
+            const playButton = document.getElementById(`play-button-${playerIndex}`);
+            if (!playButton) return; // Skip if element doesn't exist
+            
+            const progressBar = document.querySelector(`#audio-player-${playerIndex} .progress-bar`);
+            const timeDisplay = document.querySelector(`#audio-player-${playerIndex} .time`);
+            const audio = document.getElementById(`audio-${playerIndex}`);
+            const profileIcon = document.getElementById(`profile-icon-${playerIndex}`);
+            const audioStatus = document.getElementById(`audio-status-${playerIndex}`);
+            
+            let isPlaying = false;
+            let animationId;
+            
+            // Show audio status
+            function showStatus(message, statusType = 'default') {
+                if (!audioStatus) return;
+                audioStatus.textContent = message;
+                
+                // Reset classes
+                audioStatus.className = 'audio-status';
+                
+                // Add appropriate class based on status
+                if (statusType === 'playing') {
+                    audioStatus.classList.add('playing');
+                } else if (statusType === 'paused') {
+                    audioStatus.classList.add('paused');
+                } else if (statusType === 'error') {
+                    audioStatus.classList.add('error');
+                }
+                
+                // Auto-clear status after delay
+                setTimeout(() => {
+                    if (audioStatus && audioStatus.textContent === message) {
+                        if (isPlaying) {
+                            audioStatus.textContent = 'Playing';
+                            audioStatus.className = 'audio-status playing';
+                        } else {
                             audioStatus.textContent = 'Paused';
                             audioStatus.className = 'audio-status paused';
                         }
                     }
-                }
+                }, 3000);
             }
             
-            // Prevent zoom on mobile
-            function preventZoom(e) {
-                if (e.touches.length > 1) {
-                    e.preventDefault();
-                }
+            // Simple animation without Web Audio API
+            function simpleAnimate() {
+                if (!isPlaying || !profileIcon) return;
+                
+                // Create a simple pulsing animation
+                profileIcon.classList.add('animated');
+                
+                animationId = requestAnimationFrame(simpleAnimate);
             }
             
-            // Prevent context menu
-            function preventContextMenu(e) {
-                e.preventDefault();
-                return false;
-            }
-            
-            // Fullscreen change event
-            document.addEventListener('fullscreenchange', handleFullscreenChange);
-            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-            
-            function handleFullscreenChange() {
-                isFullscreen = !!(document.fullscreenElement || 
-                                 document.webkitFullscreenElement || 
-                                 document.mozFullScreenElement || 
-                                 document.msFullscreenElement);
-                
-                if (!isFullscreen) {
-                    slidesContainer.classList.remove('fullscreen');
-                    document.body.classList.remove('fullscreen');
-                    exitButton.style.display = 'none';
-                    startScreen.style.display = 'flex';
-                    slidesContainer.style.display = 'none';
-                    landscapeMessage.style.display = 'none';
-                }
-            }
-            
-            // Check if device is mobile
-            function isMobileDevice() {
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            }
-            
-            // Orientation change event
-            window.addEventListener('orientationchange', function() {
-                // Small delay to allow orientation to complete
-                setTimeout(() => {
-                    if (isMobileDevice() && isFullscreen) {
-                        if (window.innerHeight > window.innerWidth) {
-                            // Portrait mode
-                            landscapeMessage.style.display = 'flex';
-                        } else {
-                            // Landscape mode
-                            landscapeMessage.style.display = 'none';
-                        }
-                    }
-                    
-                    // Force resize to handle viewport changes
-                    window.dispatchEvent(new Event('resize'));
-                }, 300);
-            });
-            
-            // Handle resize events
-            window.addEventListener('resize', function() {
-                // Update slide positioning on resize
-                updateSlidePosition();
-                
-                // Re-check orientation on mobile
-                if (isMobileDevice() && isFullscreen) {
-                    if (window.innerHeight > window.innerWidth) {
-                        landscapeMessage.style.display = 'flex';
-                    } else {
-                        landscapeMessage.style.display = 'none';
-                    }
-                }
-            });
-            
-            // Initialize audio players
-            function initAudioPlayer(playerIndex) {
-                const playButton = document.getElementById(`play-button-${playerIndex}`);
-                if (!playButton) return; // Skip if element doesn't exist
-                
-                const progressBar = document.querySelector(`#audio-player-${playerIndex} .progress-bar`);
-                const timeDisplay = document.querySelector(`#audio-player-${playerIndex} .time`);
-                const audio = document.getElementById(`audio-${playerIndex}`);
-                const profileIcon = document.getElementById(`profile-icon-${playerIndex}`);
-                const audioStatus = document.getElementById(`audio-status-${playerIndex}`);
-                
-                let isPlaying = false;
-                let animationId;
-                
-                // Show audio status
-                function showStatus(message, statusType = 'default') {
-                    if (!audioStatus) return;
-                    audioStatus.textContent = message;
-                    
-                    // Reset classes
-                    audioStatus.className = 'audio-status';
-                    
-                    // Add appropriate class based on status
-                    if (statusType === 'playing') {
-                        audioStatus.classList.add('playing');
-                    } else if (statusType === 'paused') {
-                        audioStatus.classList.add('paused');
-                    } else if (statusType === 'error') {
-                        audioStatus.classList.add('error');
-                    }
-                    
-                    // Auto-clear status after delay
-                    setTimeout(() => {
-                        if (audioStatus && audioStatus.textContent === message) {
-                            if (isPlaying) {
-                                audioStatus.textContent = 'Playing';
-                                audioStatus.className = 'audio-status playing';
-                            } else {
-                                audioStatus.textContent = 'Paused';
-                                audioStatus.className = 'audio-status paused';
-                            }
-                        }
-                    }, 3000);
-                }
-                
-                // Simple animation without Web Audio API
-                function simpleAnimate() {
-                    if (!isPlaying || !profileIcon) return;
-                    
-                    // Create a simple pulsing animation
-                    profileIcon.classList.add('animated');
-                    
-                    animationId = requestAnimationFrame(simpleAnimate);
-                }
-                
-                // Play/Pause functionality
-                playButton.addEventListener('click', function() {
-                    if (isPlaying) {
-                        // Pause audio
-                        audio.pause();
-                        playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
-                        playButton.classList.remove('playing');
-                        if (animationId) {
-                            cancelAnimationFrame(animationId);
-                        }
-                        if (profileIcon) profileIcon.classList.remove('animated');
-                        showStatus('Paused', 'paused');
-                        isPlaying = false;
-                    } else {
-                        // Pause other audio players
-                        pauseAllAudio();
-                        
-                        // Play audio
-                        const playPromise = audio.play();
-                        
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                // Audio started successfully
-                                playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
-                                playButton.classList.add('playing');
-                                simpleAnimate();
-                                showStatus('Playing', 'playing');
-                                isPlaying = true;
-                            }).catch(error => {
-                                // Audio failed to play
-                                console.error('Error playing audio:', error);
-                                showStatus('Audio Error', 'error');
-                                
-                                // Try fallback approach - reset and try again
-                                try {
-                                    audio.currentTime = 0;
-                                    const fallbackPlay = audio.play();
-                                    if (fallbackPlay !== undefined) {
-                                        fallbackPlay.then(() => {
-                                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
-                                            playButton.classList.add('playing');
-                                            simpleAnimate();
-                                            showStatus('Playing', 'playing');
-                                            isPlaying = true;
-                                        }).catch(fallbackError => {
-                                            console.error('Fallback also failed:', fallbackError);
-                                            showStatus('Cannot play audio', 'error');
-                                        });
-                                    }
-                                } catch (fallbackError) {
-                                    console.error('Fallback also failed:', fallbackError);
-                                    showStatus('Cannot play audio', 'error');
-                                }
-                            });
-                        }
-                    }
-                });
-                
-                // Update progress bar
-                audio.addEventListener('timeupdate', function() {
-                    if (audio.duration && !isNaN(audio.duration)) {
-                        const progress = (audio.currentTime / audio.duration) * 100;
-                        if (progressBar) progressBar.style.width = `${progress}%`;
-                        
-                        const minutes = Math.floor(audio.currentTime / 60);
-                        const seconds = Math.floor(audio.currentTime % 60);
-                        if (timeDisplay) timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                    }
-                });
-                
-                // Click on progress bar to seek
-                const progressContainer = document.querySelector(`#audio-player-${playerIndex} .progress-container`);
-                if (progressContainer) {
-                    progressContainer.addEventListener('click', function(e) {
-                        if (audio.duration && !isNaN(audio.duration)) {
-                            const rect = progressContainer.getBoundingClientRect();
-                            const clickPosition = (e.clientX - rect.left) / progressContainer.offsetWidth;
-                            audio.currentTime = clickPosition * audio.duration;
-                        }
-                    });
-                }
-                
-                // Reset when audio ends
-                audio.addEventListener('ended', function() {
-                    isPlaying = false;
+            // Play/Pause functionality
+            playButton.addEventListener('click', function() {
+                if (isPlaying) {
+                    // Pause audio
+                    audio.pause();
                     playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
                     playButton.classList.remove('playing');
-                    if (progressBar) progressBar.style.width = '0%';
-                    if (timeDisplay) timeDisplay.textContent = '0:00';
                     if (animationId) {
                         cancelAnimationFrame(animationId);
                     }
                     if (profileIcon) profileIcon.classList.remove('animated');
-                    showStatus('Finished', 'default');
+                    showStatus('Paused', 'paused');
+                    isPlaying = false;
+                } else {
+                    // Pause other audio players
+                    pauseAllAudio();
+                    
+                    // Play audio
+                    const playPromise = audio.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            // Audio started successfully
+                            playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                            playButton.classList.add('playing');
+                            simpleAnimate();
+                            showStatus('Playing', 'playing');
+                            isPlaying = true;
+                        }).catch(error => {
+                            // Audio failed to play
+                            console.error('Error playing audio:', error);
+                            showStatus('Audio Error', 'error');
+                            
+                            // Try fallback approach - reset and try again
+                            try {
+                                audio.currentTime = 0;
+                                const fallbackPlay = audio.play();
+                                if (fallbackPlay !== undefined) {
+                                    fallbackPlay.then(() => {
+                                        playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>';
+                                        playButton.classList.add('playing');
+                                        simpleAnimate();
+                                        showStatus('Playing', 'playing');
+                                        isPlaying = true;
+                                    }).catch(fallbackError => {
+                                        console.error('Fallback also failed:', fallbackError);
+                                        showStatus('Cannot play audio', 'error');
+                                    });
+                                }
+                            } catch (fallbackError) {
+                                console.error('Fallback also failed:', fallbackError);
+                                showStatus('Cannot play audio', 'error');
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Update progress bar
+            audio.addEventListener('timeupdate', function() {
+                if (audio.duration && !isNaN(audio.duration)) {
+                    const progress = (audio.currentTime / audio.duration) * 100;
+                    if (progressBar) progressBar.style.width = `${progress}%`;
+                    
+                    const minutes = Math.floor(audio.currentTime / 60);
+                    const seconds = Math.floor(audio.currentTime % 60);
+                    if (timeDisplay) timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                }
+            });
+            
+            // Click on progress bar to seek
+            const progressContainer = document.querySelector(`#audio-player-${playerIndex} .progress-container`);
+            if (progressContainer) {
+                progressContainer.addEventListener('click', function(e) {
+                    if (audio.duration && !isNaN(audio.duration)) {
+                        const rect = progressContainer.getBoundingClientRect();
+                        const clickPosition = (e.clientX - rect.left) / progressContainer.offsetWidth;
+                        audio.currentTime = clickPosition * audio.duration;
+                    }
                 });
-                
-                // Handle audio loading
-                audio.addEventListener('canplaythrough', function() {
-                    console.log(`Audio ${playerIndex} loaded and ready`);
-                    showStatus('Ready to play', 'default');
-                });
-                
-                audio.addEventListener('error', function(e) {
-                    console.error(`Audio error for player ${playerIndex}:`, e);
-                    showStatus('Audio load error', 'error');
-                });
-                
-                // Preload audio
-                audio.load();
             }
             
-            // Initialize all audio players
-            for (let i = 1; i <= 26; i++) {
-                initAudioPlayer(i);
-            }
-        });
-    </script>
+            // Reset when audio ends
+            audio.addEventListener('ended', function() {
+                isPlaying = false;
+                playButton.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>';
+                playButton.classList.remove('playing');
+                if (progressBar) progressBar.style.width = '0%';
+                if (timeDisplay) timeDisplay.textContent = '0:00';
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                if (profileIcon) profileIcon.classList.remove('animated');
+                showStatus('Finished', 'default');
+            });
+            
+            // Handle audio loading
+            audio.addEventListener('canplaythrough', function() {
+                console.log(`Audio ${playerIndex} loaded and ready`);
+                showStatus('Ready to play', 'default');
+            });
+            
+            audio.addEventListener('error', function(e) {
+                console.error(`Audio error for player ${playerIndex}:`, e);
+                showStatus('Audio load error', 'error');
+            });
+            
+            // Preload audio
+            audio.load();
+        }
+        
+        // Initialize all audio players
+        for (let i = 1; i <= 26; i++) {
+            initAudioPlayer(i);
+        }
+    });
+</script>
 </body>
 </html>
