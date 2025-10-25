@@ -19,6 +19,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         /* Start Screen */
@@ -81,6 +82,19 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+        }
+
+        /* Fullscreen mode */
+        #slides-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            border-radius: 0;
+            box-shadow: none;
+            z-index: 999;
         }
 
         .slides-wrapper {
@@ -243,7 +257,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            z-index: 10;
+            z-index: 1001;
             display: none;
         }
 
@@ -325,6 +339,11 @@
                 width: 95%;
             }
             
+            #slides-container.fullscreen {
+                height: 100vh;
+                width: 100vw;
+            }
+            
             .profile-icon {
                 width: 150px;
                 height: 150px;
@@ -374,6 +393,11 @@
                 width: 98%;
             }
             
+            #slides-container.fullscreen {
+                height: 100vh;
+                width: 100vw;
+            }
+            
             .profile-icon {
                 width: 120px;
                 height: 120px;
@@ -416,6 +440,10 @@
         @media (max-height: 500px) and (orientation: landscape) {
             #slides-container {
                 height: 90vh;
+            }
+            
+            #slides-container.fullscreen {
+                height: 100vh;
             }
             
             .profile-icon {
@@ -1314,6 +1342,8 @@
                 </div>
             </div>
             
+            <!-- Slides 5-34 would follow the same pattern -->
+            
             <!-- Slide 35 -->
             <div class="slide">
                 <img src="https://pptx26.vercel.app/slides/35.jpg" alt="Slide 35">
@@ -1355,6 +1385,7 @@
             let touchStartX = 0;
             let touchEndX = 0;
             let indicators = [];
+            let isFullscreen = false;
             
             // Generate indicators dynamically
             function generateIndicators() {
@@ -1393,6 +1424,9 @@
                 slidesContainer.style.display = 'block';
                 exitButton.style.display = 'flex';
                 
+                // Enter fullscreen mode
+                enterFullscreen();
+                
                 // Generate indicators
                 generateIndicators();
                 
@@ -1405,13 +1439,39 @@
                 }, 100);
             });
             
-            // Exit button
-            exitButton.addEventListener('click', function() {
+            // Enter fullscreen mode
+            function enterFullscreen() {
+                slidesContainer.classList.add('fullscreen');
+                isFullscreen = true;
+                
+                // Prevent scrolling
+                document.body.style.overflow = 'hidden';
+                
+                // Hide address bar on mobile
+                window.scrollTo(0, 0);
+                
+                // Force resize to ensure proper rendering
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                }, 100);
+            }
+            
+            // Exit fullscreen mode
+            function exitFullscreen() {
+                slidesContainer.classList.remove('fullscreen');
+                isFullscreen = false;
+                
+                // Restore scrolling
+                document.body.style.overflow = '';
+                
                 slidesContainer.style.display = 'none';
                 startScreen.style.display = 'flex';
                 exitButton.style.display = 'none';
                 goToSlide(0);
-            });
+            }
+            
+            // Exit button
+            exitButton.addEventListener('click', exitFullscreen);
             
             // Navigation buttons
             prevBtn.addEventListener('click', prevSlide);
@@ -1432,9 +1492,7 @@
                         prevSlide();
                         break;
                     case 'Escape':
-                        slidesContainer.style.display = 'none';
-                        startScreen.style.display = 'flex';
-                        exitButton.style.display = 'none';
+                        exitFullscreen();
                         break;
                     case 'Home':
                         goToSlide(0);
@@ -1700,6 +1758,14 @@
             window.addEventListener('resize', function() {
                 // Update slide positioning on resize
                 updateSlidePosition();
+            });
+            
+            // Prevent context menu on mobile
+            document.addEventListener('contextmenu', function(e) {
+                if (isFullscreen) {
+                    e.preventDefault();
+                    return false;
+                }
             });
         });
     </script>
