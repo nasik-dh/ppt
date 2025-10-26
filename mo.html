@@ -7,627 +7,536 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>MABAHIS PPT - By Muhammed Nasik KV</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        html, body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+    html, body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f5f5;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
 
-        /* Start Screen */
-        #start-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            flex-direction: column;
-            padding: 20px;
-            text-align: center;
-        }
+    /* Start Screen */
+    #start-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+    }
 
-        #start-button {
-            padding: 15px 40px;
-            font-size: 1.3rem;
-            background-color: #ffffff;
-            color: #1a2a6c;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
+    #start-button {
+        padding: 15px 40px;
+        font-size: 1.3rem;
+        background-color: #ffffff;
+        color: #1a2a6c;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 30px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
 
-        #start-button:hover {
-            background-color: #1a2a6c;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
+    #start-button:hover {
+        background-color: #1a2a6c;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
 
-        .start-info {
-            text-align: center;
-            max-width: 600px;
-            margin-bottom: 30px;
-            color: white;
-        }
+    .start-info {
+        text-align: center;
+        max-width: 600px;
+        margin-bottom: 30px;
+        color: white;
+    }
 
-        .start-info h1 {
-            margin-bottom: 15px;
-            color: white;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+    .start-info h1 {
+        margin-bottom: 15px;
+        color: white;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
 
-        .start-info p {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-            font-size: 1.2rem;
-        }
+    .start-info p {
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.5;
+        font-size: 1.2rem;
+    }
 
-        /* Slides Container */
+    /* Slides Container */
+    #slides-container {
+        display: none;
+        width: 100%;
+        max-width: 1200px;
+        height: 80vh;
+        margin: 0 auto;
+        position: relative;
+        background-color: #222; /* Changed from white to match slide background */
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    /* Fullscreen mode */
+    #slides-container.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        border-radius: 0;
+        box-shadow: none;
+        z-index: 999;
+        background-color: #222; /* Added for fullscreen mode */
+    }
+
+    .slides-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+
+    .slide {
+        position: relative;
+        min-width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #222;
+        overflow: hidden;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background-color: #222;
+    }
+
+    /* Content overlay for slides with background images */
+    .content-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        padding: 5vh 5vw;
+        gap: 4vh;
+    }
+
+    /* Audio Status Styling */
+    .audio-status-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0;
+        order: 1;
+    }
+
+    .audio-status {
+        display: inline-block;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 30px;
+        font-size: 1rem;
+        color: #333;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        font-weight: 500;
+        min-width: 200px;
+        max-width: 80%;
+        transition: all 0.3s ease;
+    }
+
+    .audio-status.playing {
+        background: rgba(37, 211, 102, 0.15);
+        color: #1a7c3a;
+    }
+
+    .audio-status.paused {
+        background: rgba(255, 193, 7, 0.15);
+        color: #b28a00;
+    }
+
+    .audio-status.error {
+        background: rgba(244, 67, 54, 0.15);
+        color: #c62828;
+    }
+
+    /* Profile Icon Styling */
+    .profile-container {
+        order: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .profile-icon {
+        width: 22vmin;
+        height: 22vmin;
+        max-width: 220px;
+        max-height: 220px;
+        min-width: 120px;
+        min-height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        border: 6px solid white;
+        position: relative;
+        transition: transform 0.3s ease;
+    }
+
+    .profile-icon.animated {
+        animation: pulse 2s infinite;
+    }
+
+    .profile-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Audio Player Styling */
+    .audio-player-container {
+        order: 3;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+    }
+
+    .audio-player {
+        display: flex;
+        align-items: center;
+        background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+        border-radius: 50px;
+        padding: 15px 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        max-width: 550px;
+        width: 90%;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .audio-player:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .play-button {
+        background: linear-gradient(135deg, #25d366, #1da851);
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        margin-right: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+    }
+
+    .play-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 15px rgba(37, 211, 102, 0.6);
+    }
+
+    .play-button.playing {
+        background: linear-gradient(135deg, #ff9800, #f57c00);
+        box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+    }
+
+    .play-button svg {
+        width: 25px;
+        height: 25px;
+        fill: white;
+    }
+
+    .progress-container {
+        flex-grow: 1;
+        height: 8px;
+        background-color: #b2dfdb;
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+        margin: 0 15px;
+    }
+
+    .progress-bar {
+        position: absolute;
+        height: 100%;
+        background: linear-gradient(90deg, #25d366, #1da851);
+        border-radius: 4px;
+        width: 0%;
+        transition: width 0.1s linear;
+    }
+
+    .time {
+        margin-left: 10px;
+        font-size: 1rem;
+        color: #546e7a;
+        min-width: 60px;
+        font-weight: 500;
+    }
+
+    /* Video Slide Styling */
+    .video-container {
+        width: 70%;
+        height: 70%;
+        position: relative;
+    }
+
+    .video-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Exit Button */
+    #exit-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 1001;
+        display: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    #exit-button:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+    }
+
+    /* Landscape Message */
+    #landscape-message {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+        color: white;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 2000;
+        text-align: center;
+        padding: 20px;
+    }
+
+    #landscape-message h2 {
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+    }
+
+    #landscape-message p {
+        margin-top: 10px;
+        font-size: 1.2rem;
+        max-width: 500px;
+    }
+
+    #landscape-message .rotate-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        animation: rotate 2s infinite;
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(90deg); }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
         #slides-container {
-            display: none;
-            width: 100%;
-            max-width: 1200px;
-            height: 80vh;
-            margin: 0 auto;
-            position: relative;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            height: 70vh;
+            width: 95%;
+            background-color: #222; /* Added for mobile */
         }
-
-        /* Fullscreen mode */
+        
         #slides-container.fullscreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
             height: 100vh;
-            max-width: none;
-            border-radius: 0;
-            box-shadow: none;
-            z-index: 999;
+            width: 100vw;
+            background-color: #222; /* Added for fullscreen mobile */
         }
-
-        .slides-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            transition: transform 0.5s ease;
+        
+        .profile-icon {
+            width: 25vmin;
+            height: 25vmin;
         }
-
-        .slide {
-            position: relative;
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #222;
-            overflow: hidden;
+        
+        .audio-player {
+            max-width: 450px;
+            padding: 12px 20px;
         }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background-color: #222;
+        
+        .play-button {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
         }
-
-        /* Content overlay for slides with background images */
-        .content-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-            padding: 5vh 5vw;
-            gap: 4vh;
+        
+        .play-button svg {
+            width: 22px;
+            height: 22px;
         }
-
-        /* Audio Status Styling */
-        .audio-status-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 0;
-            order: 1;
+        
+        .time {
+            font-size: 0.9rem;
+        }
+        
+        .video-container {
+            width: 90%;
+            height: 60%;
         }
 
         .audio-status {
-            display: inline-block;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            font-size: 1rem;
-            color: #333;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-            font-weight: 500;
-            min-width: 200px;
-            max-width: 80%;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            padding: 8px 16px;
         }
+    }
 
-        .audio-status.playing {
-            background: rgba(37, 211, 102, 0.15);
-            color: #1a7c3a;
+    @media (max-width: 480px) {
+        #slides-container {
+            height: 65vh;
+            width: 98%;
+            background-color: #222; /* Added for small mobile */
         }
-
-        .audio-status.paused {
-            background: rgba(255, 193, 7, 0.15);
-            color: #b28a00;
+        
+        #slides-container.fullscreen {
+            height: 100vh;
+            width: 100vw;
+            background-color: #222; /* Added for fullscreen small mobile */
         }
-
-        .audio-status.error {
-            background: rgba(244, 67, 54, 0.15);
-            color: #c62828;
-        }
-
-        /* Profile Icon Styling */
-        .profile-container {
-            order: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 0;
-        }
-
+        
         .profile-icon {
-            width: 22vmin;
-            height: 22vmin;
-            max-width: 220px;
-            max-height: 220px;
-            min-width: 120px;
-            min-height: 120px;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 6px solid white;
-            position: relative;
-            transition: transform 0.3s ease;
+            width: 28vmin;
+            height: 28vmin;
+            border-width: 4px;
         }
-
-        .profile-icon.animated {
-            animation: pulse 2s infinite;
-        }
-
-        .profile-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Audio Player Styling */
-        .audio-player-container {
-            order: 3;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-top: 0;
-        }
-
+        
         .audio-player {
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
-            border-radius: 50px;
-            padding: 15px 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 550px;
-            width: 90%;
-            position: relative;
-            transition: all 0.3s ease;
+            max-width: 350px;
+            padding: 10px 15px;
         }
-
-        .audio-player:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
+        
         .play-button {
-            background: linear-gradient(135deg, #25d366, #1da851);
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            margin-right: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+            width: 45px;
+            height: 45px;
+            margin-right: 12px;
         }
-
-        .play-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.6);
-        }
-
-        .play-button.playing {
-            background: linear-gradient(135deg, #ff9800, #f57c00);
-            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
-        }
-
+        
         .play-button svg {
-            width: 25px;
-            height: 25px;
-            fill: white;
+            width: 20px;
+            height: 20px;
         }
-
-        .progress-container {
-            flex-grow: 1;
-            height: 8px;
-            background-color: #b2dfdb;
-            border-radius: 4px;
-            position: relative;
-            cursor: pointer;
-            margin: 0 15px;
-        }
-
-        .progress-bar {
-            position: absolute;
-            height: 100%;
-            background: linear-gradient(90deg, #25d366, #1da851);
-            border-radius: 4px;
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-
+        
         .time {
-            margin-left: 10px;
-            font-size: 1rem;
-            color: #546e7a;
-            min-width: 60px;
-            font-weight: 500;
+            font-size: 0.85rem;
+            margin-left: 8px;
+            min-width: 50px;
         }
-
-        /* Video Slide Styling */
-        .video-container {
-            width: 70%;
-            height: 70%;
-            position: relative;
+        
+        .audio-status {
+            font-size: 0.85rem;
+            padding: 7px 14px;
+            min-width: 180px;
         }
-
-        .video-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        
+        .content-overlay {
+            gap: 3vh;
         }
+    }
 
-        /* Exit Button */
-        #exit-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1001;
-            display: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
+    @media (max-height: 500px) and (orientation: landscape) {
+        #slides-container {
+            height: 90vh;
+            background-color: #222; /* Added for landscape mobile */
         }
-
-        #exit-button:hover {
-            background-color: rgba(0, 0, 0, 0.9);
-            transform: scale(1.1);
+        
+        #slides-container.fullscreen {
+            height: 100vh;
+            background-color: #222; /* Added for fullscreen landscape mobile */
         }
-
-        /* Slide Indicators */
-        .slide-indicators {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            z-index: 5;
-            gap: 8px;
-            padding: 0 10px;
-            box-sizing: border-box;
+        
+        .profile-icon {
+            width: 20vmin;
+            height: 20vmin;
         }
-
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s;
-            cursor: pointer;
+        
+        .audio-player {
+            padding: 10px 20px;
         }
-
-        .indicator.active {
-            background-color: white;
-            transform: scale(1.2);
+        
+        .content-overlay {
+            gap: 2vh;
         }
+    }
 
-        /* Navigation Controls */
-        #navigation-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 5;
+    /* Hide scrollbars in fullscreen */
+    body.fullscreen {
+        overflow: hidden;
+    }
+
+    /* iOS specific fixes */
+    @supports (-webkit-touch-callout: none) {
+        #slides-container.fullscreen {
+            height: 100vh;
+            height: -webkit-fill-available;
         }
-
-        .nav-btn {
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            transform: scale(1.1);
-        }
-
-        /* Slide Counter */
-        .slide-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 5;
-            font-weight: 500;
-        }
-
-        /* Landscape Message */
-        #landscape-message {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
-            color: white;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 2000;
-            text-align: center;
-            padding: 20px;
-        }
-
-        #landscape-message h2 {
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-
-        #landscape-message p {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            max-width: 500px;
-        }
-
-        #landscape-message .rotate-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: rotate 2s infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(90deg); }
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            #slides-container {
-                height: 70vh;
-                width: 95%;
-            }
-            
-            #slides-container.fullscreen {
-                height: 100vh;
-                width: 100vw;
-            }
-            
-            .profile-icon {
-                width: 25vmin;
-                height: 25vmin;
-            }
-            
-            .audio-player {
-                max-width: 450px;
-                padding: 12px 20px;
-            }
-            
-            .play-button {
-                width: 50px;
-                height: 50px;
-                margin-right: 15px;
-            }
-            
-            .play-button svg {
-                width: 22px;
-                height: 22px;
-            }
-            
-            .time {
-                font-size: 0.9rem;
-            }
-            
-            .video-container {
-                width: 90%;
-                height: 60%;
-            }
-        }
-
-            .nav-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-            }
-
-            .slide-counter {
-                top: 15px;
-                right: 15px;
-                font-size: 12px;
-                padding: 6px 12px;
-            }
-            
-            .audio-status {
-                font-size: 0.9rem;
-                padding: 8px 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #slides-container {
-                height: 65vh;
-                width: 98%;
-            }
-            
-            #slides-container.fullscreen {
-                height: 100vh;
-                width: 100vw;
-            }
-            
-            .profile-icon {
-                width: 28vmin;
-                height: 28vmin;
-                border-width: 4px;
-            }
-            
-            .audio-player {
-                max-width: 350px;
-                padding: 10px 15px;
-            }
-            
-            .play-button {
-                width: 45px;
-                height: 45px;
-                margin-right: 12px;
-            }
-            
-            .play-button svg {
-                width: 20px;
-                height: 20px;
-            }
-            
-            .time {
-                font-size: 0.85rem;
-                margin-left: 8px;
-                min-width: 50px;
-            }
-
-            .slide-indicators {
-                bottom: 15px;
-            }
-
-            .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            
-            .audio-status {
-                font-size: 0.85rem;
-                padding: 7px 14px;
-                min-width: 180px;
-            }
-            
-            .content-overlay {
-                gap: 3vh;
-            }
-        }
-
-        @media (max-height: 500px) and (orientation: landscape) {
-            #slides-container {
-                height: 90vh;
-            }
-            
-            #slides-container.fullscreen {
-                height: 100vh;
-            }
-            
-            .profile-icon {
-                width: 20vmin;
-                height: 20vmin;
-            }
-            
-            .audio-player {
-                padding: 10px 20px;
-            }
-            
-            .content-overlay {
-                gap: 2vh;
-            }
-        }
-
-        /* Hide scrollbars in fullscreen */
-        body.fullscreen {
-            overflow: hidden;
-        }
-
-        /* iOS specific fixes */
-        @supports (-webkit-touch-callout: none) {
-            #slides-container.fullscreen {
-                height: 100vh;
-                height: -webkit-fill-available;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <!-- Start Screen -->
